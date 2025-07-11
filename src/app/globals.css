@@ -2,26 +2,204 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  /* @apply bg-dark; */
+  @apply text-white/90;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: hsla(240, 20%, 5%, 1); /* Base dark navy */
+
+  background-image:
+    /* Top soft shadow */ radial-gradient(
+      at 50% 0%,
+      hsla(240, 20%, 10%, 0.05) 0px,
+      transparent 25%
+    ),
+    /* Middle-left glow */
+      radial-gradient(
+        at 30% 20%,
+        hsla(240, 20%, 25%, 0.08) 0px,
+        transparent 50%
+      ),
+    /* Bottom-left glow */
+      radial-gradient(at 10% 85%, hsla(240, 20%, 45%, 0.1) 0px, transparent 30%),
+    /* Bottom-right shadow */
+      radial-gradient(
+        at 80% 100%,
+        hsla(240, 20%, 10%, 0.08) 0px,
+        transparent 60%
+      ),
+    /* Top-left detail */
+      radial-gradient(at 0% 0%, hsla(240, 20%, 5%, 0.6) 0px, transparent 15%),
+    /* Orange soft light (bottom accent) */
+      radial-gradient(
+        at 20% 100%,
+        hsla(28, 100%, 60%, 0.08) 0px,
+        transparent 40%
+      );
+
+  background-blend-mode: screen;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+#nprogress .bar {
+  background: #f97316 !important; /* Tailwind orange-500 */
+  height: 3px;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #f97316, 0 0 5px #f97316 !important;
+}
+
+/* === UNIVERSAL === */
+.hls-player input.custom-slider[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+/* === FIREFOX === */
+
+/* Track */
+.hls-player input.custom-slider[type="range"]::-moz-range-track {
+  height: 4px;
+  background-color: rgb(249 115 22 / 0.3);
+  transition: height 0.2s ease;
+}
+.hls-player input.custom-slider[type="range"]:hover::-moz-range-track {
+  height: 6px;
+}
+.hls-player
+  input.custom-slider[type="range"]:not(:hover):not(:active)::-moz-range-track {
+  height: 4px;
+}
+
+/* Progress */
+.hls-player input.custom-slider[type="range"]::-moz-range-progress {
+  background-color: #f97316;
+  height: 4px;
+  transition: height 0.2s ease;
+}
+.hls-player input.custom-slider[type="range"]:hover::-moz-range-progress {
+  height: 6px;
+}
+.hls-player
+  input.custom-slider[type="range"]:not(:hover):not(
+    :active
+  )::-moz-range-progress {
+  height: 4px;
+}
+
+/* Thumb */
+.hls-player input.custom-slider[type="range"]::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  background-color: #f97316;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+}
+.hls-player input.custom-slider[type="range"]:hover::-moz-range-thumb,
+.hls-player input.custom-slider[type="range"]:active::-moz-range-thumb {
+  transform: scale(1);
+}
+.hls-player
+  input.custom-slider[type="range"]:not(:hover):not(:active)::-moz-range-thumb {
+  transform: scale(0);
+}
+
+/* === WEBKIT (Chrome, Safari, Edge Chromium) === */
+
+/* Track */
+.hls-player input.custom-slider[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background-color: rgb(249 115 22 / 0.3);
+  border-radius: 9999px;
+  transition: height 0.2s ease;
+}
+.hls-player
+  input.custom-slider[type="range"]:hover::-webkit-slider-runnable-track {
+  height: 6px;
+}
+.hls-player
+  input.custom-slider[type="range"]:not(:hover):not(
+    :active
+  )::-webkit-slider-runnable-track {
+  height: 4px;
+}
+
+/* Thumb */
+.hls-player input.custom-slider[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  width: 14px;
+  background-color: #f97316;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: transform 0.2s ease;
+  margin-top: -5px; /* posisi biar sejajar */
+}
+.hls-player input.custom-slider[type="range"]:hover::-webkit-slider-thumb,
+.hls-player input.custom-slider[type="range"]:active::-webkit-slider-thumb {
+  transform: scale(1);
+}
+.hls-player
+  input.custom-slider[type="range"]:not(:hover):not(
+    :active
+  )::-webkit-slider-thumb {
+  transform: scale(0);
+}
+
+/* === EDGE / IE (fallback minimal) === */
+.hls-player input.custom-slider[type="range"]::-ms-track {
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+  height: 4px;
+}
+.hls-player input.custom-slider[type="range"]::-ms-fill-lower {
+  background: #f97316;
+  height: 4px;
+}
+.hls-player input.custom-slider[type="range"]::-ms-fill-upper {
+  background: rgb(249 115 22 / 0.3);
+  height: 4px;
+}
+.hls-player input.custom-slider[type="range"]::-ms-thumb {
+  background: #f97316;
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+}
+
+/* TIPPY */
+.tippy-box {
+  position: relative;
+  background-color: #070710 !important;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 14px;
+  outline: 0;
+  transition-property: transform, visibility, opacity;
+}
+
+.tippy-content {
+  padding: 0px !important;
+}
+
+.tippy-box[data-placement^="top"] > .tippy-arrow::before {
+  border-top-color: #070710 !important;
 }
