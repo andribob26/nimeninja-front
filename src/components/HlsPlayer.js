@@ -378,7 +378,7 @@ function HlsPlayer({ src, thumbnail }) {
           >
             {!isInitialBuffering && (
               <div className="hover:scale-110 hover:text-orange-500 transition-all duration-200">
-                <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
+                <RiPlayLargeLine className="h-10 w-10 md:h-24 md:w-24" />
               </div>
             )}
           </div>
@@ -406,7 +406,7 @@ function HlsPlayer({ src, thumbnail }) {
           {/* Overlay & Play Button */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/40">
             <div className="text-white hover:scale-110 transition-all duration-200 hover:text-orange-500">
-              <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
+              <RiPlayLargeLine className="h-10 w-10 md:h-24 md:w-24" />
             </div>
           </div>
         </div>

@@ -112,7 +112,7 @@ const Home = async () => {
       >
         <header>
           <h2
-            id="latest-episodes"
+            id="anime-ongoing"
             className="text-xl font-semibold mb-6 inline-block"
           >
             Sedang Tayang

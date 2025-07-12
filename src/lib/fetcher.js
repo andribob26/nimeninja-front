@@ -8,13 +8,15 @@ export async function fetchWithRevalidate(
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
     if (value !== undefined && value !== null && value !== "") {
-      searchParams.append(key, value);
+      if (Array.isArray(value)) {
+        value.forEach((v) => searchParams.append(key, v));
+      } else {
+        searchParams.append(key, value);
+      }
     }
   }
 
-  const fullUrl = `${
-    process.env.API_BASE_URL
-  }${path}?${searchParams.toString()}`;
+  const fullUrl = `${BASE_URL}${path}?${searchParams.toString()}`;
   console.log("▶️ fetch:", fullUrl);
 
   const fetchOptions = {
@@ -22,10 +24,11 @@ export async function fetchWithRevalidate(
     cache: revalidateInSeconds ? undefined : "no-store",
   };
 
+  console.log(BASE_URL);
+
   const res = await fetch(fullUrl, fetchOptions);
 
   if (!res.ok) throw new Error(`❌ Failed to fetch ${fullUrl}`);
   const json = await res.json();
-
   return json;
 }

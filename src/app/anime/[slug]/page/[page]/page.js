@@ -5,17 +5,9 @@ import Link from "next/link";
 import RelatedAnimeSlider from "../../RelatedAnimeSlider";
 import { Fragment } from "react";
 import { RiPlayLargeLine } from "react-icons/ri";
+import formatDate from "@/utils/formatDate";
 
 export const dynamicParams = true;
-
-const formatDate = (dateStr) => {
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }); // Hasil: 7 Juli 2025
-};
 
 export async function generateStaticParams() {
   try {
@@ -221,12 +213,12 @@ export default async function AnimePage({ params }) {
 
                   {/* Label info di bawah kiri */}
                   <div className="absolute bottom-0 left-0 text-sm text-white px-2 py-0.5 bg-gray-700/70">
-                    Ep {ep.episodeNumber}
+                    Episode {ep.episodeNumber}
                   </div>
 
                   {/* Tanggal rilis di bawah kanan */}
                   <div className="absolute bottom-0 right-0 text-sm text-white px-2 py-0.5 bg-gray-700/70">
-                    {formatDate(ep.airedAt)}
+                    {ep.duration}
                   </div>
                 </div>
               </article>
@@ -262,7 +254,7 @@ export default async function AnimePage({ params }) {
       <section className="px-10 mb-8">
         <header>
           <h2
-            id="anime-completed"
+            id="anime-related"
             className="text-xl font-semibold mb-6 inline-block"
           >
             Anime Terkait

@@ -165,10 +165,9 @@ const RootLayout = ({ children }) => {
 
         <footer className="footer-light-dim p-10">
           <div className="text-sm text-neutral-300">
-            Nimegami adalah sebuah Fanshare tempat download anime gratis
-            subtitle indonesia. Disini kami menyediakan anime dengan format mkv
-            dan mp4. Ada banyak ukuran anime yang dishare disini, yaitu 480p,
-            720p, 360p, dan kadang kadang 240p.
+            NimeNinja - Tempat nonton anime dengan nyaman dan tanpa ribet. ©
+            2025 NimeNinja. Tetap semangat menonton dan jangan lupa istirahat
+            ya!
           </div>
         </footer>
       </body>
