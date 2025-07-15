@@ -1,13 +1,6 @@
-import "dotenv/config";
+import 'dotenv/config';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    API_BASE_URL: process.env.API_BASE_URL,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    CDN_WORKER_URL: process.env.CDN_WORKER_URL,
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
-    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-  },
   async rewrites() {
     return [
       {
