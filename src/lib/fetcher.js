@@ -3,7 +3,7 @@ const BASE_URL = process.env.API_BASE_URL;
 export async function fetchWithRevalidate(
   path,
   params = {},
-  revalidateInSeconds = null
+  revalidateInSeconds = 60 // ⏱️ default cache 60 detik
 ) {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -20,8 +20,7 @@ export async function fetchWithRevalidate(
   console.log("▶️ fetch:", fullUrl);
 
   const fetchOptions = {
-    next: revalidateInSeconds ? { revalidate: revalidateInSeconds } : undefined,
-    cache: revalidateInSeconds ? undefined : "no-store",
+    next: { revalidate: revalidateInSeconds },
   };
 
   try {
@@ -29,13 +28,13 @@ export async function fetchWithRevalidate(
 
     if (!res.ok) {
       console.error(`❌ Fetch failed: ${res.status} ${res.statusText}`);
-      return null; // Atau bisa `throw new Error(...)` jika ingin handle di komponen
+      return null;
     }
 
     const json = await res.json();
     return json;
   } catch (err) {
     console.error("🔥 Error fetchWithRevalidate:", err?.message || err);
-    return null; // Hindari crash, kembalikan null supaya aman
+    return null;
   }
 }

@@ -175,32 +175,24 @@ const WatchEpisode = async ({ params }) => {
       mediaSlug: slug,
     });
 
+    const resEpisodes = await fetchWithRevalidate("/episodes", {
+      mediaSlug: slug,
+      episodeNumber,
+      limit: 8,
+      aroundEpisode: true,
+    });
+
     episode = res.data?.[0];
     total = resTotal.data;
-    if (!episode) return notFound();
+    episodes = resEpisodes.data;
+
+    if (!episode || !episodes) return notFound();
 
     urlVideo = episode.video.hlsObject;
   } catch (err) {
     console.error("Fetch episode error:", err);
     return notFound();
   }
-
-  try {
-    const res = await fetchWithRevalidate("/episodes", {
-      mediaSlug: slug,
-      episodeNumber,
-      limit: 8,
-      aroundEpisode: true,
-    });
-    episodes = res.data;
-
-    if (!episodes) return notFound();
-  } catch (err) {
-    console.error(`Failed to fetch surrounding episodes:`, err);
-    return notFound();
-  }
-
-  console.log(episode);
 
   return (
     <>
