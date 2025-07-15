@@ -12,8 +12,6 @@ import {
 } from "react-icons/ri";
 import { notFound } from "next/navigation";
 
-export const dynamic = 'force-dynamic';
-
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

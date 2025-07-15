@@ -7,8 +7,6 @@ import Link from "next/link";
 import Image from "next/image";
 import formatDate from "@/utils/formatDate";
 
-export const dynamic = 'force-dynamic';
-
 export async function generateMetadata({ params }) {
   const { slug, episodeNumber } = params;
 
