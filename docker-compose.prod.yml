@@ -4,9 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
-      args:
-        API_BASE_URL: https://apinimeninja.work.gd
-        CDN_WORKER_URL: https://video-auth-worker.nime-ninja.workers.dev
     ports:
       - "4000:4000"
     environment:
