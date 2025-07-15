@@ -17,12 +17,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: new URL(process.env.API_BASE_URL).hostname,
+        hostname: process.env.API_BASE_URL,
         pathname: "/files/images/**",
       },
       {
         protocol: "https",
-        hostname: new URL(process.env.CDN_WORKER_URL).hostname,
+        hostname: process.env.CDN_WORKER_URL,
         pathname: "/**", // pakai /** untuk izinkan semua path
       },
     ],
