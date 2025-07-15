@@ -7,6 +7,8 @@ import { RiArrowLeftDoubleLine, RiArrowLeftSLine, RiArrowRightDoubleLine, RiArro
 import formatDate from "@/utils/formatDate";
 import AnimeDescription from "./AnimeDescription";
 
+export const dynamic = 'force-dynamic';
+
 export const dynamicParams = true;
 
 export async function generateStaticParams() {

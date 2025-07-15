@@ -2,6 +2,8 @@ import { fetchWithRevalidate } from "@/lib/fetcher";
 import AnimePage from "./page/[page]/page";
 import { notFound } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({ params }) {
   const { slug } = params;
   let anime;
