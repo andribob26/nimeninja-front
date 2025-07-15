@@ -18,7 +18,7 @@ RUN npm install
 FROM deps AS builder
 WORKDIR /app
 COPY . .
-COPY .env .env # ✅ fix penting di sini
+COPY .env .env
 RUN npm run build
 
 # --------------------
