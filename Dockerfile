@@ -27,6 +27,7 @@ ENV CDN_WORKER_URL=$CDN_WORKER_URL
 
 RUN npm run build
 
+
 # --------------------------
 # 🚀 Production Image
 # --------------------------
