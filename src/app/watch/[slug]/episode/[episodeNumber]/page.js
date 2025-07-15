@@ -123,9 +123,6 @@ export async function generateMetadata({ params }) {
 
 export const dynamicParams = true;
 
-// Opsi revalidate halaman ini setiap 1 jam agar tetap fresh
-// export const revalidate = 3600; // optional
-
 export async function generateStaticParams() {
   try {
     const res = await fetchWithRevalidate("/media", { page: 1, limit: 20 }); // Limit untuk mencegah OOM
@@ -174,23 +171,27 @@ const WatchEpisode = async ({ params }) => {
     const resTotal = await fetchWithRevalidate("/episodes/total", {
       mediaSlug: slug,
     });
+    episode = res.data?.[0];
+    total = resTotal.data;
 
+    if (!episode || !episodes) return notFound();
+
+    urlVideo = episode.video.hlsObject;
+  } catch (error) {
+    console.error("Episode by slug fetch error:", error);
+    return notFound();
+  }
+
+  try {
     const resEpisodes = await fetchWithRevalidate("/episodes", {
       mediaSlug: slug,
       episodeNumber,
       limit: 8,
       aroundEpisode: true,
     });
-
-    episode = res.data?.[0];
-    total = resTotal.data;
     episodes = resEpisodes.data;
-
-    if (!episode || !episodes) return notFound();
-
-    urlVideo = episode.video.hlsObject;
-  } catch (err) {
-    console.error("Fetch episode error:", err);
+  } catch (error) {
+    console.error("Fetch episode error:", error);
     return notFound();
   }
 

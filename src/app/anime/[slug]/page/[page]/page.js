@@ -3,10 +3,14 @@ import { notFound } from "next/navigation";
 import { fetchWithRevalidate } from "@/lib/fetcher";
 import Link from "next/link";
 import RelatedAnimeSlider from "../../RelatedAnimeSlider";
-import { RiArrowLeftDoubleLine, RiArrowLeftSLine, RiArrowRightDoubleLine, RiArrowRightSLine, RiPlayLargeLine } from "react-icons/ri";
-import formatDate from "@/utils/formatDate";
+import {
+  RiArrowLeftDoubleLine,
+  RiArrowLeftSLine,
+  RiArrowRightDoubleLine,
+  RiArrowRightSLine,
+  RiPlayLargeLine,
+} from "react-icons/ri";
 import AnimeDescription from "./AnimeDescription";
-
 
 export const dynamicParams = true;
 
@@ -45,14 +49,6 @@ export default async function AnimePage({ params }) {
   if (isNaN(pageNumber) || pageNumber < 1) notFound();
 
   let anime;
-  try {
-    const res = await fetchWithRevalidate(`/media/${slug}`, {});
-    anime = res.data;
-  } catch {
-    console.error("Anime by slug fetch error:", err);
-    notFound();
-  }
-
   let episodes = [];
   let pagination = {
     total: 0,
@@ -62,32 +58,31 @@ export default async function AnimePage({ params }) {
     next: null,
     prev: null,
   };
+  let animeRelate = [];
 
+  try {
+    const res = await fetchWithRevalidate(`/media/${slug}`, {});
+    anime = res.data;
+  } catch {
+    console.error("Anime by slug fetch error:", err);
+    notFound();
+  }
   try {
     const resEpisodes = await fetchWithRevalidate(`/episodes`, {
       ...paramsEpisodeAnime,
       page: pageNumber,
       mediaId: anime.id,
     });
-
     episodes = resEpisodes.data;
     pagination = resEpisodes.pagination;
-
-    // if (!episodes.length || pageNumber > pagination.lastPage) {
-    //   notFound(); // 👈 tetap di sini
-    // }
   } catch (err) {
     console.error("Episode fetch error:", err);
-    notFound(); // 👈 pastikan ini ada juga
+    notFound();
   }
-
-  let animeRelate = [];
-
   try {
     const title = anime.title;
     const studio = anime.studio;
     const genres = anime.genre.map((g) => g.name);
-
     const resAnimeRelate = await fetchWithRevalidate(`/media`, {
       ...paramsAnimeRelate,
       search: title,
@@ -98,11 +93,9 @@ export default async function AnimePage({ params }) {
       (item) => item.slug !== slug
     );
     animeRelate = filterAnimeRelate;
-
-    // animeRelate = resAnimeRelate.data;
   } catch (err) {
     console.error("Anime Relate fetch error:", err);
-    notFound(); // 👈 pastikan ini ada juga
+    notFound(); 
   }
 
   return (
@@ -142,9 +135,7 @@ export default async function AnimePage({ params }) {
 
               <dl className="grid grid-cols-2 sm:grid-cols-3 gap-y-2 gap-x-6 text-xs sm:text-sm md:text-base text-left max-w-2xl mx-auto md:mx-0 pt-6">
                 <div className="flex gap-2">
-                  <dt className="font-semibold whitespace-nowrap">
-                    Season:
-                  </dt>
+                  <dt className="font-semibold whitespace-nowrap">Season:</dt>
                   <dd className="text-white/60 ">{anime.season.name}</dd>
                 </div>
                 <div className="flex gap-2">
@@ -172,9 +163,7 @@ export default async function AnimePage({ params }) {
                   </dd>
                 </div>
                 <div className="col-span-3 grid grid-cols-[auto_1fr] gap-x-2 pt-1">
-                  <dt className="font-semibold whitespace-nowrap">
-                    Genre:
-                  </dt>
+                  <dt className="font-semibold whitespace-nowrap">Genre:</dt>
                   <dd className="flex flex-wrap gap-2 text-white/60 ">
                     {anime.genre.map((genre, index) => (
                       <span
@@ -252,8 +241,7 @@ export default async function AnimePage({ params }) {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-6 gap-4">
             {/* Teks halaman */}
             <div className="flex-1 text-sm md:text-base text-center md:text-right">
-              Halaman {pagination.page} dari{" "}
-              {pagination.lastPage}
+              Halaman {pagination.page} dari {pagination.lastPage}
             </div>
 
             {/* Pagination */}
@@ -286,16 +274,17 @@ export default async function AnimePage({ params }) {
               {Array.from({ length: 5 }, (_, i) => {
                 const startPage = Math.max(
                   1,
-                  Math.min(
-                    pagination.page - 2,
-                    pagination.lastPage - 4
-                  )
+                  Math.min(pagination.page - 2, pagination.lastPage - 4)
                 );
                 const page = startPage + i;
                 return page <= pagination.lastPage ? (
                   <Link
                     key={page}
-                    href={page === 1 ? `/anime/${slug}` : `/anime/${slug}/page/${page}`}
+                    href={
+                      page === 1
+                        ? `/anime/${slug}`
+                        : `/anime/${slug}/page/${page}`
+                    }
                     className={`px-2 py-1 md:px-4 md:py-2 ${
                       page === pagination.page
                         ? "bg-white text-black font-bold border"
@@ -318,8 +307,7 @@ export default async function AnimePage({ params }) {
               )}
 
               {/* Tombol ke halaman terakhir */}
-              {pagination.page <
-                pagination.lastPage - 2 && (
+              {pagination.page < pagination.lastPage - 2 && (
                 <Link
                   href={`/anime/${slug}/page/${pagination.lastPage}`}
                   className="px-2 py-1 md:px-3 md:py-2 flex items-center justify-center bg-gray-700 hover:bg-gray-600"

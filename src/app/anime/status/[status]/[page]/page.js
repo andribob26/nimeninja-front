@@ -7,19 +7,24 @@ import React from "react";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const res = await fetchWithRevalidate("/media", {
-    page: 1,
-    limit: 500,
-    orderDirection: "ASC",
-  });
+  try {
+    const res = await fetchWithRevalidate("/media", {
+      page: 1,
+      limit: 500,
+      orderDirection: "ASC",
+    });
 
-  const totalPages =
-    Math.ceil(res.pagination?.total / res.pagination?.limit) || 1;
-  const pages = Array.from({ length: totalPages }, (_, i) => ({
-    page: `${i + 1}`,
-  }));
+    const totalPages =
+      Math.ceil(res.pagination?.total / res.pagination?.limit) || 1;
+    const pages = Array.from({ length: totalPages }, (_, i) => ({
+      page: `${i + 1}`,
+    }));
 
-  return pages;
+    return pages;
+  } catch (error) {
+    console.error("generateStaticParams error:", error);
+    return [];
+  }
 }
 
 const paramsStatusAnime = {
@@ -55,7 +60,7 @@ const AnimeStatusPage = async ({ params }) => {
     animes = resAnimeStatus.data;
     pagination = resAnimeStatus.pagination;
   } catch (err) {
-    console.error(`Failed to fetch:`, err);
+    console.error(`Anime status failed to fetch:`, err);
     return notFound();
   }
 

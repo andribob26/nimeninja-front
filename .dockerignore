@@ -1,0 +1,21 @@
+#(jangan ikut di-copy)
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build hasil dev
+.next
+out
+dist
+
+# Git dan CI
+.git
+.gitignore
+.env
+.env.* 
+
+# Mac/VSCode
+.DS_Store
+.vscode
+.idea

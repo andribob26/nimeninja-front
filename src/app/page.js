@@ -1,7 +1,5 @@
 import HomePage from "./page/[page]/page";
 
-// SEO metadata khusus halaman home
-
 const title = `NimeNinja - Nonton Anime Sub Indo Gratis & Terlengkap Kualitas HD`;
 const description =
   "NimeNinja adalah tempat terbaik untuk streaming anime sub indo gratis tanpa iklan. Nikmati anime populer seperti One Piece, Boruto, Jujutsu Kaisen, Demon Slayer, Attack on Titan, Naruto, Bleach, Tokyo Revengers, My Hero Academia, Spy x Family, Chainsaw Man, dan banyak lagi. Tersedia anime ongoing dan completed dengan kualitas HD, update cepat setiap hari, dan tampilan nyaman di semua perangkat.";
@@ -66,7 +64,7 @@ export const metadata = {
     card: "summary_large_image",
     title,
     description,
-    images: [`${process.env.NEXT_PUBLIC_SITE_URL}${image}`],//gambar
+    images: [`${process.env.NEXT_PUBLIC_SITE_URL}/${image}`],//gambar
     site: "@nimeninja",
     creator: "@nimeninja",
   },

@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "4000:4000"
+    environment:
+      NODE_ENV: development
+    env_file:
+      - .env
+    restart: unless-stopped

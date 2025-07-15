@@ -15,19 +15,23 @@ import { notFound } from "next/navigation";
 export const dynamicParams = true;
 
 export async function generateStaticParams() {
-  const res = await fetchWithRevalidate("/episodes", {
-    page: 1,
-    limit: 500,
-    orderDirection: "DESC",
-  });
+  try {
+    const res = await fetchWithRevalidate("/episodes", {
+      page: 1,
+      limit: 500,
+      orderDirection: "DESC",
+    });
 
-  const totalPages =
-    Math.ceil(res.pagination?.total / res.pagination?.limit) || 1;
-  const pages = Array.from({ length: totalPages }, (_, i) => ({
-    page: `${i + 1}`,
-  }));
-
-  return pages;
+    const totalPages =
+      Math.ceil(res.pagination?.total / res.pagination?.limit) || 1;
+    const pages = Array.from({ length: totalPages }, (_, i) => ({
+      page: `${i + 1}`,
+    }));
+    return pages;
+  } catch (error) {
+    console.error("generateStaticParams error:", error);
+    return [];
+  }
 }
 
 const paramsOngoingAnime = {
@@ -59,8 +63,6 @@ const HomePage = async ({ params }) => {
   const page = parseInt(params.page || "1");
   if (isNaN(page) || page < 1) notFound();
 
-  let animeOngoing = [];
-  let animeCompleted = [];
   let lastEpisodeAnime = [];
   let paginationLastEpisode = {
     total: 0,
@@ -70,25 +72,41 @@ const HomePage = async ({ params }) => {
     next: null,
     prev: null,
   };
+  let animeOngoing = [];
+  let animeCompleted = [];
+
+  try {
+    const resLastEpisodeAnime = await fetchWithRevalidate("/episodes", {
+      page: page,
+      ...paramsLastEpisodeAnime,
+    });
+    lastEpisodeAnime = resLastEpisodeAnime.data;
+    paginationLastEpisode = resLastEpisodeAnime.pagination;
+  } catch (error) {
+    console.error(`Last episode failed to fetch:`, error);
+    return notFound();
+  }
+
   try {
     const resAnimeOngoing = await fetchWithRevalidate(
       "/media",
       paramsOngoingAnime
     );
+
+    animeOngoing = resAnimeOngoing.data;
+  } catch (error) {
+    console.error(`Anime ongoing failed to fetch:`, error);
+    return notFound();
+  }
+
+  try {
     const resAnimeCompleted = await fetchWithRevalidate(
       "/media",
       paramsCompletedAnime
     );
-    const resLastEpisodeAnime = await fetchWithRevalidate("/episodes", {
-      page: page,
-      ...paramsLastEpisodeAnime,
-    });
-    animeOngoing = resAnimeOngoing.data;
     animeCompleted = resAnimeCompleted.data;
-    lastEpisodeAnime = resLastEpisodeAnime.data;
-    paginationLastEpisode = resLastEpisodeAnime.pagination;
-  } catch (err) {
-    console.error(`Failed to fetch surrounding episodes:`, err);
+  } catch (error) {
+    console.error(`Anime completed failed to fetch:`, error);
     return notFound();
   }
 
