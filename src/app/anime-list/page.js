@@ -97,7 +97,7 @@ const AnimeList = () => {
           className="relative z-30 px-4 md:px-10 py-10 flex-grow flex items-end"
           aria-labelledby="anime-title"
         >
-          <div className="flex flex-col md:flex-row items-stretch gap-6 max-w-7xl mx-auto text-white w-full">
+          <div className="flex flex-col md:flex-row items-stretch gap-6 max-w-7xl mx-auto w-full">
             {/* Cover Image */}
             <figure className="w-full max-w-[240px] md:w-auto mx-auto md:mx-0 flex-shrink-0 rounded overflow-hidden shadow-lg h-auto md:h-full">
               <Image
@@ -137,7 +137,7 @@ const AnimeList = () => {
               {/* Detail info */}
               <dl className="grid grid-cols-2 sm:grid-cols-3 gap-y-2 gap-x-6 text-xs sm:text-sm md:text-base text-left max-w-2xl mx-auto md:mx-0 pt-6">
                 <div className="flex gap-2">
-                  <dt className="font-semibold text-white/90 whitespace-nowrap">
+                  <dt className="font-semibold text-white/60 whitespace-nowrap">
                     Season:
                   </dt>
                   <dd className="text-gray-300">Fall</dd>
@@ -163,7 +163,7 @@ const AnimeList = () => {
                   <dd className="text-green-400 font-semibold">Completed</dd>
                 </div>
                 <div className="col-span-3 grid grid-cols-[auto_1fr] gap-x-2 pt-1">
-                  <dt className="font-semibold whitespace-nowrap text-white/90">
+                  <dt className="font-semibold whitespace-nowrap text-white/60">
                     Genre:
                   </dt>
                   <dd className="flex flex-wrap gap-2 text-gray-300">
@@ -218,7 +218,7 @@ const AnimeList = () => {
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-dark/70 backdrop-blur-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <p className="text-white text-center px-4">
+                    <p className="text-center px-4">
                       Ini adalah deskripsi episode {ep}.
                     </p>
                   </div>

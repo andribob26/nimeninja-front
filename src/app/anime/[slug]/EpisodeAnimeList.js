@@ -70,7 +70,7 @@ const EpisodeAnimeList = ({ slug }) => {
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-dark/70 backdrop-blur-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-center px-4">
+                  <p className="text-center px-4">
                     Episode {ep.episodeNumber}.
                   </p>
                 </div>
@@ -85,21 +85,21 @@ const EpisodeAnimeList = ({ slug }) => {
         <button
           onClick={() => handleChangePage(page - 1)}
           disabled={page <= 1}
-          className={`px-4 py-2 bg-gray-700 text-white rounded ${
+          className={`px-4 py-2 bg-gray-700 rounded ${
             page <= 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"
           }`}
         >
           Previous
         </button>
 
-        <span className="self-center text-white">
+        <span className="self-center">
           Page {page} of {pagination.lastPage}
         </span>
 
         <button
           onClick={() => handleChangePage(page + 1)}
           disabled={page >= pagination.lastPage}
-          className={`px-4 py-2 bg-gray-700 text-white rounded ${
+          className={`px-4 py-2 bg-gray-700 rounded ${
             page >= pagination.lastPage
               ? "opacity-50 cursor-not-allowed"
               : "hover:bg-gray-600"

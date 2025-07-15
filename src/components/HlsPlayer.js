@@ -405,7 +405,7 @@ function HlsPlayer({ src, thumbnail }) {
 
           {/* Overlay & Play Button */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-            <div className="text-white hover:scale-110 transition-all duration-200 hover:text-orange-500">
+            <div className="hover:scale-110 transition-all duration-200 hover:text-orange-500">
               <RiPlayLargeLine className="h-10 w-10 md:h-24 md:w-24" />
             </div>
           </div>
@@ -420,7 +420,7 @@ function HlsPlayer({ src, thumbnail }) {
           }}
           className={`absolute bottom-0 left-0 w-full z-40 transition-opacity duration-300 ${
             hideControls ? "opacity-0 pointer-events-none" : "opacity-100"
-          } bg-dark bg-opacity-50 text-white py-2 px-4 flex flex-col gap-1 md:gap-2`}
+          } bg-dark bg-opacity-50 py-2 px-4 flex flex-col gap-1 md:gap-2`}
         >
           <span className="text-[10px] md:text-xs">
             {formatTime(currentTime)} / {formatTime(duration)}
@@ -624,7 +624,7 @@ function HlsPlayer({ src, thumbnail }) {
                   <Tippy
                     visible={isShowQualityPopper}
                     content={
-                      <div className="bg-dark text-white rounded-sm overflow-hidden py-2 shadow">
+                      <div className="bg-dark rounded-sm overflow-hidden py-2 shadow">
                         <div
                           onClick={() => {
                             handleSelectQuality(-1);
@@ -677,7 +677,7 @@ function HlsPlayer({ src, thumbnail }) {
               <Tippy
                 visible={isShowSpeedPopper}
                 content={
-                  <div className="bg-dark text-white rounded-sm overflow-hidden shadow py-2">
+                  <div className="bg-dark rounded-sm overflow-hidden shadow py-2">
                     {[0.5, 0.75, 1, 1.25, 1.5, 2].map((r) => (
                       <div
                         key={r}

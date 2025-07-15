@@ -1,9 +1,9 @@
 const BASE_URL = process.env.API_BASE_URL;
-// const revalidate = 1800; 30 menit
+
 export async function fetchWithRevalidate(
   path,
   params = {},
-  revalidateInSeconds = null // default null
+  revalidateInSeconds = null
 ) {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
@@ -24,11 +24,18 @@ export async function fetchWithRevalidate(
     cache: revalidateInSeconds ? undefined : "no-store",
   };
 
-  console.log(BASE_URL);
+  try {
+    const res = await fetch(fullUrl, fetchOptions);
 
-  const res = await fetch(fullUrl, fetchOptions);
+    if (!res.ok) {
+      console.error(`❌ Fetch failed: ${res.status} ${res.statusText}`);
+      return null; // Atau bisa `throw new Error(...)` jika ingin handle di komponen
+    }
 
-  if (!res.ok) throw new Error(`❌ Failed to fetch ${fullUrl}`);
-  const json = await res.json();
-  return json;
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    console.error("🔥 Error fetchWithRevalidate:", err?.message || err);
+    return null; // Hindari crash, kembalikan null supaya aman
+  }
 }

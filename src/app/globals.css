@@ -4,7 +4,7 @@
 
 html {
   /* @apply bg-dark; */
-  @apply text-white/90;
+  @apply text-white/80;
 }
 
 body {

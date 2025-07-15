@@ -7,6 +7,120 @@ import Link from "next/link";
 import Image from "next/image";
 import formatDate from "@/utils/formatDate";
 
+export async function generateMetadata({ params }) {
+  const { slug, episodeNumber } = params;
+
+  let episode;
+
+  try {
+    const res = await fetchWithRevalidate("/episodes", {
+      mediaSlug: slug,
+      episodeNumber,
+    });
+
+    episode = res.data?.[0];
+  } catch (error) {
+    return {
+      title: "Episode tidak ditemukan - NimeNinja",
+      description: "Episode yang Anda cari tidak tersedia.",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
+
+  if (!episode) throw new Error("Episode not found");
+  const anime = episode.media;
+
+  const title = `Nonton ${anime.title} Episode ${episode.episodeNumber} Sub Indo - NimeNinja`;
+  const description =
+    anime.description?.substring(0, 160) ||
+    "Streaming anime subtitle Indonesia kualitas HD hanya di NimeNinja.";
+  const image = `/${episode.video.thumbnailObject}`;
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/watch/${slug}/episode/${episode.episodeNumber}`;
+
+  return {
+    title,
+    description,
+    keywords: [
+      anime.title,
+      `${anime.title} sub indo`,
+      `Nonton ${anime.title} episode ${episode.episodeNumber}`,
+      "Nonton anime sub indo",
+      "Streaming anime gratis",
+      "Anime subtitle Indonesia",
+      "Anime ongoing terbaru",
+      "Anime lengkap kualitas HD",
+      "Samehadaku",
+      "Otakudesu",
+      "Anoboy",
+      "Nanime",
+      "Nimegami",
+      "NimeNinja",
+      "Nonton anime 2025",
+      "Nonton anime gratis tanpa iklan",
+      "Download anime sub indo",
+      "Streaming anime Bstation",
+      "Anime Muse Indonesia",
+      "Nonton anime iQIYI",
+      "Nonton anime di Netflix",
+      "Anime legal sub indo",
+      "Nonton anime terbaru gratis",
+      "Streaming anime cepat",
+      "Situs nonton anime terbaik",
+      "Nonton anime HD 1080p",
+      "Nonton Boruto sub indo",
+      "Nonton One Piece episode terbaru",
+      "Nonton Kimetsu no Yaiba sub indo",
+      "Tempat nonton anime subtitle Indonesia",
+    ],
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL),
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "NimeNinja",
+      type: "video.episode",
+      locale: "id_ID",
+      images: [
+        {
+          url: `${process.env.CDN_WORKER_URL}${image}`,
+          width: 1200,
+          height: 630,
+          alt: `Cover ${anime.title}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${process.env.CDN_WORKER_URL}${image}`],
+      site: "@nimeninja",
+      creator: "@nimeninja",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        maxImagePreview: "large",
+      },
+    },
+    other: {
+      "theme-color": "#FF7F11",
+      "fb:app_id": "123456789",
+      "twitter:site": "@nimeninja",
+      "twitter:creator": "@nimeninja",
+    },
+  };
+}
+
 export const dynamicParams = true;
 
 // Opsi revalidate halaman ini setiap 1 jam agar tetap fresh
@@ -47,6 +161,7 @@ const WatchEpisode = async ({ params }) => {
   const { slug, episodeNumber } = params;
 
   let episode;
+  let total;
   let episodes = [];
   let urlVideo;
 
@@ -56,7 +171,12 @@ const WatchEpisode = async ({ params }) => {
       episodeNumber,
     });
 
+    const resTotal = await fetchWithRevalidate("/episodes/total", {
+      mediaSlug: slug,
+    });
+
     episode = res.data?.[0];
+    total = resTotal.data;
     if (!episode) return notFound();
 
     urlVideo = episode.video.hlsObject;
@@ -73,34 +193,88 @@ const WatchEpisode = async ({ params }) => {
       aroundEpisode: true,
     });
     episodes = res.data;
+
     if (!episodes) return notFound();
   } catch (err) {
     console.error(`Failed to fetch surrounding episodes:`, err);
     return notFound();
   }
 
+  console.log(episode);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Episode",
+            name: `${episode.media.title} Episode ${episode.episodeNumber}`,
+            episodeNumber: episode.episodeNumber,
+            partOfSeries: {
+              "@type": "TVSeries",
+              name: episode.media.title,
+            },
+            description: episode.media.description,
+            image: `${process.env.CDN_WORKER_URL}/${episode.video.thumbnailObject}`,
+            datePublished: episode.airedAt || new Date().toISOString(),
+          }),
+        }}
+      />
       <section
         aria-labelledby="episode-player"
-        className="w-full max-w-7xl mx-auto aspect-video rounded-sm overflow-hidden mt-24 mb-10 space-y-3"
+        className="mt-20 md:mt-24 mb-6 md:mb-10"
       >
-        <h4 className="text-left text-xl md:text-2xl font-bold drop-shadow-lg leading-snug">
-          {`${episode.media.title} - Episode ${episode.episodeNumber}`}
-        </h4>
-        <HlsPlayer src={urlVideo} thumbnail={episode.video.thumbnailObject} />
+        <div className="w-full max-w-7xl mx-auto aspect-video rounded-sm overflow-hidden mb-6">
+          <HlsPlayer src={urlVideo} thumbnail={episode.video.thumbnailObject} />
+        </div>
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
+          <h4 className="text-left text-xl md:text-2xl font-bold drop-shadow-lg leading-snug">
+            {`${episode.media.title} Episode ${episode.episodeNumber}`}
+          </h4>
+
+          <div className="flex justify-center flex-wrap gap-4">
+            {episode.episodeNumber > 1 && (
+              <Link
+                href={`/watch/${slug}/episode/${episode.episodeNumber - 1}`}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
+              >
+                Sebelumnya
+              </Link>
+            )}
+            {episode.episodeNumber < total && (
+              <Link
+                href={`/watch/${slug}/episode/${episode.episodeNumber + 1}`}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
+              >
+                Selanjutnya
+              </Link>
+            )}
+          </div>
+        </div>
       </section>
-      <section aria-labelledby="other-episode" className="px-10 mb-8">
-        <header>
+      <section
+        aria-labelledby="other-episode"
+        className="px-6 md:px-10 mb-6 md:mb-10"
+      >
+        <header className="flex items-center justify-between mb-6">
           <h2
             id="other-episode"
-            className="text-xl font-semibold mb-6 inline-block"
+            className="text-lg sm:text-xl md:text-2xl font-semibold inline-block"
           >
             Episode Lainnya
-            <span className="block mt-2 w-full h-[3px] bg-orange-500 rounded-full"></span>
+            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
           </h2>
+          <Link
+            href={`/anime/${slug}`}
+            className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-sm transition-all duration-200"
+          >
+            Lihat Lainnya
+          </Link>
         </header>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
           {episodes.map((ep) => (
             <Link
               href={`/watch/${slug}/episode/${ep.episodeNumber}`}
@@ -108,7 +282,7 @@ const WatchEpisode = async ({ params }) => {
             >
               <article
                 key={ep.id}
-                className="group cursor-pointer relative overflow-hidden rounded"
+                className="group cursor-pointer relative overflow-hidden rounded-sm"
               >
                 <div className="aspect-[16/9] w-full relative rounded-sm overflow-hidden">
                   <Image
@@ -119,21 +293,21 @@ const WatchEpisode = async ({ params }) => {
                     className="object-cover group-hover:scale-105 transition-transform"
                   />
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-dark/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-sm transition-opacity">
-                    <div className="text-white group-hover:scale-110 transition-all duration-200">
-                      <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
-                    </div>
-                  </div>
-
                   {/* Label info di bawah kiri */}
-                  <div className="absolute bottom-0 left-0 text-sm text-white px-2 py-0.5 bg-gray-700/70">
+                  <div className="absolute bottom-0 left-0 text-sm px-2 py-0.5 bg-gray-700/70">
                     Episode {ep.episodeNumber}
                   </div>
 
                   {/* Tanggal rilis di bawah kanan */}
-                  <div className="absolute bottom-0 right-0 text-sm text-white px-2 py-0.5 bg-gray-700/70">
+                  <div className="absolute bottom-0 right-0 text-sm px-2 py-0.5 bg-gray-700/70">
                     {ep.duration}
+                  </div>
+
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-dark/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-sm transition-opacity">
+                    <div className="group-hover:scale-110 transition-all duration-200">
+                      <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
+                    </div>
                   </div>
                 </div>
               </article>
