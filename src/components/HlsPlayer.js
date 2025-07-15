@@ -140,6 +140,30 @@ function HlsPlayer({ src, thumbnail }) {
     if (videoRef.current) videoRef.current.playbackRate = rate;
   };
 
+  const handleVideoClick = (e) => {
+    if (hideControls) {
+      setHideControls(false);
+      clearTimeout(controlTimerRef.current);
+      controlTimerRef.current = setTimeout(() => {
+        if (!videoRef.current?.paused) {
+          setHideControls(true);
+        }
+      }, 2000);
+      return;
+    }
+
+    if (isReady) {
+      if (isShowPopperRef.current) {
+        e.stopPropagation();
+        setIsShowQualityPopper(false);
+        setIsShowSpeedPopper(false);
+        return;
+      }
+
+      togglePlay();
+    }
+  };
+
   useEffect(() => {
     if (!isReady) return;
     const setupHls = async () => {
@@ -332,18 +356,19 @@ function HlsPlayer({ src, thumbnail }) {
         ref={videoRef}
         className="w-full h-full block object-contain"
         controls={false}
-        onClick={(e) => {
-          if (isReady) {
-            if (isShowPopperRef.current) {
-              e.stopPropagation();
-              setIsShowQualityPopper(false);
-              setIsShowSpeedPopper(false);
-              return;
-            }
+        onClick={handleVideoClick}
+        // onClick={(e) => {
+        //   if (isReady) {
+        //     if (isShowPopperRef.current) {
+        //       e.stopPropagation();
+        //       setIsShowQualityPopper(false);
+        //       setIsShowSpeedPopper(false);
+        //       return;
+        //     }
 
-            togglePlay();
-          }
-        }}
+        //     togglePlay();
+        //   }
+        // }}
       />
       {(isInitialBuffering || isBuffering || isSeeking) && (
         <div
@@ -362,18 +387,19 @@ function HlsPlayer({ src, thumbnail }) {
         !isBuffering &&
         !isSeeking && (
           <div
-            onClick={(e) => {
-              if (isReady) {
-                if (isShowPopperRef.current) {
-                  e.stopPropagation();
-                  setIsShowQualityPopper(false);
-                  setIsShowSpeedPopper(false);
-                  return;
-                }
+            // onClick={(e) => {
+            //   if (isReady) {
+            //     if (isShowPopperRef.current) {
+            //       e.stopPropagation();
+            //       setIsShowQualityPopper(false);
+            //       setIsShowSpeedPopper(false);
+            //       return;
+            //     }
 
-                togglePlay();
-              }
-            }}
+            //     togglePlay();
+            //   }
+            // }}
+            onClick={handleVideoClick}
             className="absolute cursor-pointer inset-0 flex items-center justify-center z-30"
           >
             {!isInitialBuffering && (

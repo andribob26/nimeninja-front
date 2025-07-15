@@ -224,7 +224,7 @@ const WatchEpisode = async ({ params }) => {
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
-          <h4 className="text-left text-xl md:text-2xl font-bold drop-shadow-lg leading-snug">
+          <h4 className="text-left text-lg md:text-2xl font-bold drop-shadow-lg leading-snug">
             {`${episode.media.title} Episode ${episode.episodeNumber}`}
           </h4>
 
