@@ -22,8 +22,8 @@ export async function GET(req, context) {
     const cookieHeader = req.headers.get("cookie") || "";
     const anonId = getCookie(cookieHeader, "anon_id");
 
-    if (!anonId) {
-      return new Response("Missing anon_id cookie", { status: 400 });
+    if (!anonId || !isValidUUID(anonId)) {
+      return new Response("Invalid or missing anon_id cookie", { status: 400 });
     }
 
     const token = await getValidToken(req, anonId);
@@ -113,4 +113,11 @@ function getCookie(cookieHeader, name) {
     if (key === name) return value;
   }
   return null;
+}
+
+// Validasi UUID v4
+function isValidUUID(uuid) {
+  const uuidV4Regex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidV4Regex.test(uuid);
 }

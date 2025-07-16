@@ -6,6 +6,7 @@ import { RiPlayLargeLine } from "react-icons/ri";
 import Link from "next/link";
 import Image from "next/image";
 import formatDate from "@/utils/formatDate";
+import WatchEpisodeClient from "./WatchEpisodeClient";
 
 export async function generateMetadata({ params }) {
   const { slug, episodeNumber } = params;
@@ -215,6 +216,7 @@ const WatchEpisode = async ({ params }) => {
           }),
         }}
       />
+      <WatchEpisodeClient />
       <section
         aria-labelledby="episode-player"
         className="mt-20 md:mt-24 mb-6 md:mb-10"
