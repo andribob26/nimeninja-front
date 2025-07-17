@@ -60,6 +60,7 @@ function HlsPlayer({ src, thumbnail }) {
   const [isShowQualityPopper, setIsShowQualityPopper] = useState(false);
   const [isShowSpeedPopper, setIsShowSpeedPopper] = useState(false);
   const [isInitialBuffering, setIsInitialBuffering] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   // const token = useHlsToken(isReady);
 
@@ -199,10 +200,26 @@ function HlsPlayer({ src, thumbnail }) {
       hls.attachMedia(video);
       hls.loadSource(masterUrl);
 
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          setErrorMessage("Gagal memuat video. Silakan coba lagi.");
+          setInitialLoading(false);
+        }
+      });
+
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         if (isCancelled) return;
 
         setQualityLevels(hls.levels);
+
+        const lowestLevelIndex = hls.levels.reduce(
+          (minIndex, level, index, arr) =>
+            level.bitrate < arr[minIndex].bitrate ? index : minIndex,
+          0
+        );
+        
+        hls.startLevel = lowestLevelIndex;
+
         if (hasInteractedRef.current) {
           video.play().catch((err) => {
             if (err.name !== "AbortError") {
@@ -343,6 +360,23 @@ function HlsPlayer({ src, thumbnail }) {
     isShowPopperRef.current = isShowQualityPopper || isShowSpeedPopper;
   }, [isShowQualityPopper, isShowSpeedPopper]);
 
+  const renderError = () =>
+    errorMessage && (
+      <div className="absolute inset-0 z-[99999] bg-black/80 flex flex-col items-center justify-center text-white text-center px-4">
+        <p className="text-sm md:text-base">{errorMessage}</p>
+        <button
+          onClick={() => {
+            setErrorMessage(null);
+            setIsReady(false);
+            setInitialLoading(true);
+          }}
+          className="mt-4 px-4 py-2 bg-orange-500 rounded hover:bg-orange-600 text-sm"
+        >
+          Coba Lagi
+        </button>
+      </div>
+    );
+
   return (
     <div
       ref={containerRef}
@@ -370,7 +404,7 @@ function HlsPlayer({ src, thumbnail }) {
         //   }
         // }}
       />
-      {(isInitialBuffering || isBuffering || isSeeking) && (
+      {(isInitialBuffering || isBuffering || isSeeking) && !errorMessage && (
         <div
           onClick={() => {
             setIsShowSpeedPopper(false);
@@ -381,6 +415,8 @@ function HlsPlayer({ src, thumbnail }) {
           <div className="h-8 w-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
         </div>
       )}
+
+      {renderError()}
 
       {isReady ? (
         !isPlaying &&

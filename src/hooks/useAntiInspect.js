@@ -1,20 +1,36 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import devtools from "@/utils/devtools";
 
 export default function useAntiInspect() {
   const router = useRouter();
 
   useEffect(() => {
-    let redirected = false;
+    // ⛔ Detect DevTools status on mount
+    if (devtools.isOpen) {
+      console.clear();
+      console.log(
+        `%c⚠️ Akses Ditolak ⚠️\n  Jangan Menyerah, Coba Lagi!\n  Tapi bukan dengan inspect 😅`,
+        "color: #FF8800; font-family: monospace; font-size: 14px"
+      );
+      router.replace("/");
+    }
 
-    const triggerRedirect = () => {
-      if (redirected) return;
-      redirected = true;
-      setTimeout(() => router.back(), 300);
+    const onChange = (e) => {
+      if (e.detail.isOpen) {
+        console.clear();
+        console.log(
+          `%c⚠️ Akses Ditolak ⚠️\n\n  Jangan Menyerah, Coba Lagi!\n  Tapi bukan dengan inspect 😅`,
+          "color: #FF8800; font-family: monospace; font-size: 14px"
+        );
+        router.replace("/");
+      }
     };
 
-    // Anti-select
+    window.addEventListener("devtoolschange", onChange);
+
+    // 🛡️ Disable text selection
     const style = document.createElement("style");
     style.innerHTML = `
       * {
@@ -27,48 +43,14 @@ export default function useAntiInspect() {
     `;
     document.head.appendChild(style);
 
-    // Deteksi DevTools berdasarkan console inspection (lebih aman)
-    const el = new Image();
-    Object.defineProperty(el, "id", {
-      get: function () {
-        triggerRedirect();
-        return "detected";
-      },
-    });
-
-    // Trigger console hanya setelah delay (menghindari salah deteksi di awal render)
-    const logCheck = setTimeout(() => {
-      console.clear();
-      console.log(
-        `
-        %cAkses Ditolak
-        • Jangan Menyerah, Coba Lagi!
-        • Tapi bukan dengan inspect 😅
-        `,
-        "color: #FF8800; font-family: monospace; font-size: 14px"
-      );
-    }, 2000);
-
-    // Cek `debugger` trap — hanya sekali
-    const trapDebugger = () => {
-      const before = performance.now();
-      debugger;
-      const after = performance.now();
-      if (after - before > 100) {
-        triggerRedirect();
-      }
-    };
-    const debuggerTimeout = setTimeout(trapDebugger, 500); // Tunggu dulu agar false positive berkurang
-
-    // Shortcut DevTools & Klik kanan
+    // 🚫 Blok shortcut & klik kanan
     const preventContext = (e) => e.preventDefault();
     const preventShortcut = (e) => {
+      const key = e.key.toUpperCase();
       if (
-        e.key === "F12" ||
-        (e.ctrlKey &&
-          e.shiftKey &&
-          ["I", "J", "C"].includes(e.key.toUpperCase())) ||
-        (e.metaKey && e.altKey && e.key.toUpperCase() === "I")
+        key === "F12" ||
+        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(key)) ||
+        (e.metaKey && e.altKey && key === "I")
       ) {
         e.preventDefault();
         e.stopPropagation();
@@ -79,8 +61,7 @@ export default function useAntiInspect() {
     window.addEventListener("keydown", preventShortcut);
 
     return () => {
-      clearTimeout(logCheck);
-      clearTimeout(debuggerTimeout);
+      window.removeEventListener("devtoolschange", onChange);
       document.removeEventListener("contextmenu", preventContext);
       window.removeEventListener("keydown", preventShortcut);
       style.remove();

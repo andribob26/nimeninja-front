@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import { fetchWithRevalidate } from "@/lib/fetcher";
 import Link from "next/link";
 import {
@@ -11,6 +10,7 @@ import {
   RiPlayLargeLine,
 } from "react-icons/ri";
 import { notFound } from "next/navigation";
+import ShimmerImage from "@/components/ShimmerImage";
 
 export const dynamicParams = true;
 
@@ -134,7 +134,7 @@ const HomePage = async ({ params }) => {
                   className="group cursor-pointer relative overflow-hidden rounded-sm"
                 >
                   <div className="aspect-[16/9] w-full relative rounded-sm overflow-hidden">
-                    <Image
+                    <ShimmerImage
                       src={`/${ep.video.thumbnailObject}`}
                       alt={`Episode ${ep.episodeNumber}`}
                       fill
@@ -279,7 +279,7 @@ const HomePage = async ({ params }) => {
               >
                 <div className="p-[1px] rounded transition-all duration-300 group-hover:border-image-glow">
                   <div className="aspect-[2/3] w-full relative overflow-hidden rounded-sm">
-                    <Image
+                    <ShimmerImage
                       src={`/files/${item.coverImage.folder}/${item.coverImage.fileName}?h=400`}
                       alt={item.coverImage.fileName}
                       fill
@@ -330,7 +330,7 @@ const HomePage = async ({ params }) => {
               >
                 <div className="p-[1px] rounded transition-all duration-300 group-hover:border-image-glow">
                   <div className="aspect-[2/3] w-full relative overflow-hidden rounded-sm">
-                    <Image
+                    <ShimmerImage
                       src={`/files/${item.coverImage.folder}/${item.coverImage.fileName}?h=400`}
                       alt={item.coverImage.fileName}
                       fill

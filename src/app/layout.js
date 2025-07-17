@@ -423,6 +423,16 @@ const RootLayout = ({ children }) => {
             2025 NimeNinja. Tetap semangat menonton dan jangan lupa istirahat
             ya!
           </div>
+
+          <div className="mt-4 text-sm text-white/60">
+            Ingin pasang iklan? Hubungi kami di{" "}
+            <a
+              href="mailto:iklan@nimeninja.com"
+              className="text-orange-400 underline hover:text-orange-300"
+            >
+              iklan@nimeninja.com
+            </a>
+          </div>
         </footer>
       </body>
     </html>
