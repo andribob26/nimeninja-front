@@ -89,7 +89,7 @@ export async function generateMetadata({ params }) {
       locale: "id_ID",
       images: [
         {
-          url: `${process.env.CDN_WORKER_URL}${image}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_URL}${image}`,
           width: 1200,
           height: 630,
           alt: `Cover ${anime.title}`,
@@ -100,7 +100,7 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title,
       description,
-      images: [`${process.env.CDN_WORKER_URL}${image}`],
+      images: [`${process.env.NEXT_PUBLIC_SITE_URL}${image}`],
       site: "@nimeninja",
       creator: "@nimeninja",
     },
@@ -211,7 +211,7 @@ const WatchEpisode = async ({ params }) => {
               name: episode.media.title,
             },
             description: episode.media.description,
-            image: `${process.env.CDN_WORKER_URL}/${episode.video.thumbnailObject}`,
+            image: `${process.env.NEXT_PUBLIC_SITE_URL}/${episode.video.thumbnailObject}`,
             datePublished: episode.airedAt || new Date().toISOString(),
           }),
         }}

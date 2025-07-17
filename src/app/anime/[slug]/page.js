@@ -24,8 +24,9 @@ export async function generateMetadata({ params }) {
     anime.synopsis?.substring(0, 160) ||
     "Streaming anime subtitle Indonesia kualitas HD hanya di NimeNinja.";
   const image =
-    `/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400` ||
-    `${process.env.NEXT_PUBLIC_SITE_URL}/default-og.jpg`;
+    anime?.coverImage?.folder && anime?.coverImage?.fileName
+      ? `/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400`
+      : "/default-og.jpg";
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/anime/${slug}`;
 
   return {
@@ -72,11 +73,11 @@ export async function generateMetadata({ params }) {
       description,
       url,
       siteName: "NimeNinja",
-      type: "video.episode",
+      type: "video.tv_show",
       locale: "id_ID",
       images: [
         {
-          url: `${process.env.API_BASE_URL}${image}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_URL}${image}`,
           width: 1200,
           height: 630,
           alt: `Cover ${anime.title}`,
@@ -87,7 +88,7 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title,
       description,
-      images: [`${process.env.API_BASE_URL}${image}`],
+      images: [`${process.env.NEXT_PUBLIC_SITE_URL}${image}`],
       site: "@nimeninja",
       creator: "@nimeninja",
     },
@@ -109,7 +110,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-
 export default async function AnimeDefaultPage({ params }) {
   let anime;
   try {
@@ -130,9 +130,9 @@ export default async function AnimeDefaultPage({ params }) {
             "@type": "TVSeries",
             name: anime.title,
             description: anime.synopsis,
-            image: `${process.env.API_BASE_URL}/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400`,
-            genre: anime.genre.map((g) => g.name),
-            datePublished: anime.lastEpisodeAt || new Date().toISOString(),
+            image: `${process.env.NEXT_PUBLIC_SITE_URL}/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400`,
+            genre: anime.genre?.map((g) => g.name) || [],
+            startDate: anime.lastEpisodeAt || new Date().toISOString(),
           }),
         }}
       />
