@@ -13,44 +13,63 @@ const CACHE_DURATION = TTL - 5;
 
 export async function GET(req, context) {
   try {
+    const ua = req.headers.get("user-agent") || "";
+    const referer = req.headers.get("referer") || "";
+    const accept = req.headers.get("accept") || "";
+    const acceptLang = req.headers.get("accept-language") || "";
+    const secUa = req.headers.get("sec-ch-ua") || "";
+    const secFetchSite = req.headers.get("sec-fetch-site") || "";
+    const secFetchMode = req.headers.get("sec-fetch-mode") || "";
+    const secFetchDest = req.headers.get("sec-fetch-dest") || "";
+
+    // ✅ Deteksi apakah request kemungkinan besar dari browser asli
+    const isLikelyBrowser =
+      ua.includes("Mozilla") &&
+      accept.includes("text/html") &&
+      acceptLang &&
+      secUa &&
+      secFetchSite &&
+      secFetchMode;
+
+    // ❌ Deteksi bot atau client palsu
+    const isFakeBrowser =
+      ua.includes("python") ||
+      ua.includes("curl") ||
+      ua.includes("axios") ||
+      ua === "" ||
+      !acceptLang ||
+      !secUa;
+
+    // 🚨 Deteksi spoofed header (misalnya curl dengan header sec-* palsu)
+    const isSpoofedHeader =
+      // Kombinasi aneh antara accept dan user-agent
+      (accept.includes("application/json") && ua.includes("Mozilla")) ||
+      // Mode fetch tidak sesuai dengan tujuan HTML
+      (accept.includes("text/html") && secFetchMode !== "navigate") ||
+      // Referer ada tapi site dianggap "none"
+      (referer && secFetchSite === "none") ||
+      // User-Agent seperti browser tapi accept bukan HTML
+      (ua.includes("Mozilla") && !accept.includes("text/html")) ||
+      // Ada sec-* tapi fetch lainnya tidak lengkap
+      (secFetchMode && (!secFetchDest || !secFetchSite)) ||
+      // Ada sec-ch-ua tapi user-agent bukan Chrome/Firefox/Safari
+      (secUa &&
+        !ua.includes("Chrome") &&
+        !ua.includes("Firefox") &&
+        !ua.includes("Safari"));
+
+    // 🔒 Cegah akses jika request tidak valid
+    if (!isLikelyBrowser || isFakeBrowser || isSpoofedHeader) {
+      console.warn("⚠️ Blocked suspicious request");
+      return new Response("Not found", { status: 404 });
+    }
+
     const path = context.params?.path || [];
     if (path.length === 0) {
       return new Response("Missing HLS path", { status: 400 });
     }
 
-    // ✅ Tambahkan validasi IP & User-Agent
-    const ip = req.headers.get("x-forwarded-for") || "unknown";
-    const userAgent = req.headers.get("user-agent") || "";
-    const referer = req.headers.get("referer") || "";
-
-    const suspiciousAgents = [
-      "curl",
-      "Postman",
-      "Insomnia",
-      "HttpClient",
-      "python",
-      "axios",
-      "node-fetch",
-      "Go-http-client",
-      "okhttp",
-      "Wget",
-      "Java",
-      "Fiddler",
-      "Proxyman",
-    ];
-    const isBadUA = suspiciousAgents.some((bad) =>
-      userAgent.toLowerCase().includes(bad.toLowerCase())
-    );
-
-    const blockedIps = ["1.2.3.4", "5.6.7.8"]; // Ganti dengan IP yang mau kamu tolak
-    const isBlockedIp = blockedIps.includes(ip);
-
-    if (isBadUA || isBlockedIp) {
-      console.warn("❌ Blocked by IP/UA filter:", { ip, userAgent });
-      return new Response("Forbidden: Client not allowed", { status: 403 });
-    }
-
-    // ✅ Ambil anon_id dari cookie
+    // Ambil anon_id dari cookie
     const cookieHeader = req.headers.get("cookie") || "";
     const anonId = getCookie(cookieHeader, "anon_id");
 
@@ -65,8 +84,8 @@ export async function GET(req, context) {
 
     const cdnRes = await fetch(workerUrl, {
       headers: {
-        "User-Agent": userAgent,
-        Referer: referer,
+        "User-Agent": req.headers.get("user-agent") || "",
+        Referer: req.headers.get("referer") || "",
       },
     });
 
@@ -104,7 +123,6 @@ async function getValidToken(req, anonId) {
     req.headers.get("origin") ||
     req.headers.get("referer") ||
     "http://localhost:4000";
-
   let origin = "http://localhost:4000";
 
   try {
@@ -138,6 +156,7 @@ async function getValidToken(req, anonId) {
   return token;
 }
 
+// Fungsi untuk ambil cookie tertentu
 function getCookie(cookieHeader, name) {
   const cookies = cookieHeader.split(";").map((c) => c.trim());
   for (const cookie of cookies) {
@@ -147,6 +166,7 @@ function getCookie(cookieHeader, name) {
   return null;
 }
 
+// Validasi UUID v4
 function isValidUUID(uuid) {
   const uuidV4Regex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
