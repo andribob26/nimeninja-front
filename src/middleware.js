@@ -5,7 +5,7 @@ export function middleware(request) {
   const hasAnonId = request.cookies.get("anon_id");
 
   if (!hasAnonId) {
-    const newId = crypto.randomUUID(); // ganti uuidv4() dari uuid
+    const newId = crypto.randomUUID();
     response.cookies.set("anon_id", newId, {
       maxAge: 60 * 60 * 24 * 7, // 7 hari
       httpOnly: true,

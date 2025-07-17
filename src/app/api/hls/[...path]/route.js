@@ -18,7 +18,39 @@ export async function GET(req, context) {
       return new Response("Missing HLS path", { status: 400 });
     }
 
-    // Ambil anon_id dari cookie
+    // ✅ Tambahkan validasi IP & User-Agent
+    const ip = req.headers.get("x-forwarded-for") || "unknown";
+    const userAgent = req.headers.get("user-agent") || "";
+    const referer = req.headers.get("referer") || "";
+
+    const suspiciousAgents = [
+      "curl",
+      "Postman",
+      "Insomnia",
+      "HttpClient",
+      "python",
+      "axios",
+      "node-fetch",
+      "Go-http-client",
+      "okhttp",
+      "Wget",
+      "Java",
+      "Fiddler",
+      "Proxyman",
+    ];
+    const isBadUA = suspiciousAgents.some((bad) =>
+      userAgent.toLowerCase().includes(bad.toLowerCase())
+    );
+
+    const blockedIps = ["1.2.3.4", "5.6.7.8"]; // Ganti dengan IP yang mau kamu tolak
+    const isBlockedIp = blockedIps.includes(ip);
+
+    if (isBadUA || isBlockedIp) {
+      console.warn("❌ Blocked by IP/UA filter:", { ip, userAgent });
+      return new Response("Forbidden: Client not allowed", { status: 403 });
+    }
+
+    // ✅ Ambil anon_id dari cookie
     const cookieHeader = req.headers.get("cookie") || "";
     const anonId = getCookie(cookieHeader, "anon_id");
 
@@ -33,8 +65,8 @@ export async function GET(req, context) {
 
     const cdnRes = await fetch(workerUrl, {
       headers: {
-        "User-Agent": req.headers.get("user-agent") || "",
-        Referer: req.headers.get("referer") || "",
+        "User-Agent": userAgent,
+        Referer: referer,
       },
     });
 
@@ -72,6 +104,7 @@ async function getValidToken(req, anonId) {
     req.headers.get("origin") ||
     req.headers.get("referer") ||
     "http://localhost:4000";
+
   let origin = "http://localhost:4000";
 
   try {
@@ -105,7 +138,6 @@ async function getValidToken(req, anonId) {
   return token;
 }
 
-// Fungsi untuk ambil cookie tertentu
 function getCookie(cookieHeader, name) {
   const cookies = cookieHeader.split(";").map((c) => c.trim());
   for (const cookie of cookies) {
@@ -115,7 +147,6 @@ function getCookie(cookieHeader, name) {
   return null;
 }
 
-// Validasi UUID v4
 function isValidUUID(uuid) {
   const uuidV4Regex =
     /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
