@@ -1,7 +1,6 @@
 "use client";
 import "./globals.css";
 import Link from "next/link";
-import Image from "next/image";
 import logo from "../../public/assets/images/naruto.png";
 import { useEffect, useRef, useState } from "react";
 import TopProgressBar from "@/components/TopProgressBar";

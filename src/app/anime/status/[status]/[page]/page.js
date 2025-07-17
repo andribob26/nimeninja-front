@@ -1,5 +1,5 @@
+import ShimmerImage from "@/components/ShimmerImage";
 import { fetchWithRevalidate } from "@/lib/fetcher";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
@@ -90,7 +90,7 @@ const AnimeStatusPage = async ({ params }) => {
               >
                 <div className="p-[1px] rounded transition-all duration-300 group-hover:border-image-glow">
                   <div className="aspect-[2/3] w-full relative overflow-hidden rounded-sm">
-                    <Image
+                    <ShimmerImage
                       src={`/files/${item.coverImage.folder}/${item.coverImage.fileName}?h=400`}
                       alt={item.coverImage.fileName}
                       fill

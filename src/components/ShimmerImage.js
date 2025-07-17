@@ -16,7 +16,8 @@ export default function ShimmerImage({ src, alt, className = "", ...props }) {
         src={src}
         alt={alt}
         fill
-        onLoadingComplete={() => setLoaded(true)}
+        priority
+        onLoad={() => setLoaded(true)}
         className={`object-cover rounded transition-opacity duration-300 ${
           loaded ? "opacity-100" : "opacity-0"
         } ${className}`}

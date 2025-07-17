@@ -7,6 +7,8 @@ export default function useAntiInspect() {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(window);
+
     // ⛔ Detect DevTools status on mount
     if (devtools.isOpen) {
       console.clear();
@@ -29,6 +31,15 @@ export default function useAntiInspect() {
     };
 
     window.addEventListener("devtoolschange", onChange);
+
+    window.addEventListener("devicemotion", (e) => {
+      const motion = e.accelerationIncludingGravity;
+      if (motion && (motion.x !== null || motion.y !== null)) {
+        console.log("Sensor aktif. Ini kemungkinan besar HP asli.");
+      } else {
+        console.log("Tidak ada sensor nyata.");
+      }
+    });
 
     // 🛡️ Disable text selection
     const style = document.createElement("style");

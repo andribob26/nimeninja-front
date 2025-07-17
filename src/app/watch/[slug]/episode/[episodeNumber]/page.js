@@ -4,9 +4,9 @@ import { fetchWithRevalidate } from "@/lib/fetcher";
 import HlsPlayer from "@/components/HlsPlayer";
 import { RiPlayLargeLine } from "react-icons/ri";
 import Link from "next/link";
-import Image from "next/image";
 import formatDate from "@/utils/formatDate";
 import WatchEpisodeClient from "./WatchEpisodeClient";
+import ShimmerImage from "@/components/ShimmerImage";
 
 export async function generateMetadata({ params }) {
   const { slug, episodeNumber } = params;
@@ -223,6 +223,14 @@ const WatchEpisode = async ({ params }) => {
       >
         <div className="w-full max-w-7xl mx-auto aspect-video rounded-sm overflow-hidden mb-6">
           <HlsPlayer src={urlVideo} thumbnail={episode.video.thumbnailObject} />
+          {/* <iframe
+            src="https://player-hls-three.vercel.app/9e3bb69f-6812-4d08-9f1f-c60344967ea2/videos/anime/one-piece/19/1751870794856-A7whTY-df7345c2-1a21-48c0-bc3d-fc86b3572ee4"
+            width="100%"
+            height="500"
+            frameborder="0"
+            sandbox="allow-scripts allow-presentation allow-top-navigation-by-user-activation"
+            allowfullscreen
+          ></iframe> */}
         </div>
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
@@ -280,7 +288,7 @@ const WatchEpisode = async ({ params }) => {
                 className="group cursor-pointer relative overflow-hidden rounded-sm"
               >
                 <div className="aspect-[16/9] w-full relative rounded-sm overflow-hidden">
-                  <Image
+                  <ShimmerImage
                     src={`/${ep.video.thumbnailObject}`}
                     alt={`Episode ${ep.episodeNumber}`}
                     fill

@@ -11,7 +11,6 @@ import {
   RiFullscreenLine,
   RiPauseLine,
   RiPlayLargeLine,
-  RiPlayLine,
   RiReplay15Fill,
   RiVolumeMuteLine,
   RiVolumeUpLine,

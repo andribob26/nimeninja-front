@@ -13,57 +13,6 @@ const CACHE_DURATION = TTL - 5;
 
 export async function GET(req, context) {
   try {
-    const ua = req.headers.get("user-agent") || "";
-    const referer = req.headers.get("referer") || "";
-    const accept = req.headers.get("accept") || "";
-    const acceptLang = req.headers.get("accept-language") || "";
-    const secUa = req.headers.get("sec-ch-ua") || "";
-    const secFetchSite = req.headers.get("sec-fetch-site") || "";
-    const secFetchMode = req.headers.get("sec-fetch-mode") || "";
-    const secFetchDest = req.headers.get("sec-fetch-dest") || "";
-
-    // ✅ Deteksi apakah request kemungkinan besar dari browser asli
-    const isLikelyBrowser =
-      ua.includes("Mozilla") &&
-      accept.includes("text/html") &&
-      acceptLang &&
-      secUa &&
-      secFetchSite &&
-      secFetchMode;
-
-    // ❌ Deteksi bot atau client palsu
-    const isFakeBrowser =
-      ua.includes("python") ||
-      ua.includes("curl") ||
-      ua.includes("axios") ||
-      ua === "" ||
-      !acceptLang ||
-      !secUa;
-
-    // 🚨 Deteksi spoofed header (misalnya curl dengan header sec-* palsu)
-    const isSpoofedHeader =
-      // Kombinasi aneh antara accept dan user-agent
-      (accept.includes("application/json") && ua.includes("Mozilla")) ||
-      // Mode fetch tidak sesuai dengan tujuan HTML
-      (accept.includes("text/html") && secFetchMode !== "navigate") ||
-      // Referer ada tapi site dianggap "none"
-      (referer && secFetchSite === "none") ||
-      // User-Agent seperti browser tapi accept bukan HTML
-      (ua.includes("Mozilla") && !accept.includes("text/html")) ||
-      // Ada sec-* tapi fetch lainnya tidak lengkap
-      (secFetchMode && (!secFetchDest || !secFetchSite)) ||
-      // Ada sec-ch-ua tapi user-agent bukan Chrome/Firefox/Safari
-      (secUa &&
-        !ua.includes("Chrome") &&
-        !ua.includes("Firefox") &&
-        !ua.includes("Safari"));
-
-    // 🔒 Cegah akses jika request tidak valid
-    if (!isLikelyBrowser || isFakeBrowser || isSpoofedHeader) {
-      console.warn("⚠️ Blocked suspicious request");
-      return new Response("Not found", { status: 404 });
-    }
-
     const path = context.params?.path || [];
     if (path.length === 0) {
       return new Response("Missing HLS path", { status: 400 });

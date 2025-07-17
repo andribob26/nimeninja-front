@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import Thumnail from "../../../../public/assets/images/thumbnail.jpg";
 import { useRouter, useSearchParams } from "next/navigation";
+import ShimmerImage from "@/components/ShimmerImage";
 
 const EpisodeAnimeList = ({ slug }) => {
   const router = useRouter();
@@ -63,7 +63,7 @@ const EpisodeAnimeList = ({ slug }) => {
           >
             <div className="p-[1px] rounded transition-all duration-300 group-hover:border-image-glow">
               <div className="aspect-[16/9] w-full relative overflow-hidden rounded-sm">
-                <Image
+                <ShimmerImage
                   src={Thumnail}
                   alt={`Episode ${ep.id} cover`}
                   fill

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import cover from "../../../../public/assets/images/naruto_cover.jpg";
 import Link from "next/link";
+import ShimmerImage from "@/components/ShimmerImage";
 
 const RelatedAnimeSlider = ({ data }) => {
   const [isDragging, setIsDragging] = useState(false);
@@ -72,7 +72,7 @@ const RelatedAnimeSlider = ({ data }) => {
           <article key={index} className="keen-slider__slide px-2 py-2">
             <div className="group transition-transform duration-300 hover:scale-105">
               <div className="aspect-[2/3] w-full relative overflow-hidden rounded-sm">
-                <Image
+                <ShimmerImage
                   src={`/files/${item.coverImage.folder}/${item.coverImage.fileName}?h=400`}
                   alt={`Slide-${index.slug}`}
                   fill

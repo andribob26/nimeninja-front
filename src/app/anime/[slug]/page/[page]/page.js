@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { fetchWithRevalidate } from "@/lib/fetcher";
 import Link from "next/link";
@@ -11,6 +10,8 @@ import {
   RiPlayLargeLine,
 } from "react-icons/ri";
 import AnimeDescription from "./AnimeDescription";
+import ShimmerImage from "@/components/ShimmerImage";
+import Image from "next/image";
 
 export const dynamicParams = true;
 
@@ -95,19 +96,18 @@ export default async function AnimePage({ params }) {
     animeRelate = filterAnimeRelate;
   } catch (err) {
     console.error("Anime Relate fetch error:", err);
-    notFound(); 
+    notFound();
   }
 
   return (
     <>
       {/* Header Section */}
       <div className="relative w-full min-h-[620px] overflow-hidden rounded shadow-lg flex flex-col mb-6 md:mb-10 mt-20 md:mt-24">
-        <p>{`/files/${anime.heroImage.folder}/${anime.heroImage.fileName}?h=400`}</p>
         <Image
           src={`/files/${anime.heroImage.folder}/${anime.heroImage.fileName}?h=400`}
           alt={anime.heroImage.fileName}
-          priority
           fill
+          priority
           className="object-cover"
         />
 
@@ -121,7 +121,7 @@ export default async function AnimePage({ params }) {
         <section className="relative z-30 px-4 md:px-10 pb-10 flex-grow flex items-end">
           <div className="flex flex-col md:flex-row items-stretch gap-6 max-w-7xl mx-auto w-full">
             <figure className="relative w-full max-w-[250px] h-[375px] flex-shrink-0 rounded overflow-hidden shadow-lg mx-auto md:mx-0 bg-neutral-800">
-              <Image
+              <ShimmerImage
                 src={`/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400`}
                 alt={anime.coverImage.fileName}
                 fill
@@ -204,20 +204,13 @@ export default async function AnimePage({ params }) {
                   className="group cursor-pointer relative overflow-hidden rounded"
                 >
                   <div className="aspect-[16/9] w-full relative rounded-sm overflow-hidden">
-                    <Image
+                    <ShimmerImage
                       src={`/${ep.video.thumbnailObject}`}
                       alt={`Episode ${ep.episodeNumber}`}
                       fill
                       sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
                       className="object-cover group-hover:scale-105 transition-transform"
                     />
-
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-dark/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-sm transition-opacity">
-                      <div className="group-hover:scale-110 transition-all duration-200">
-                        <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
-                      </div>
-                    </div>
 
                     {/* Label info di bawah kiri */}
                     <div className="absolute bottom-0 left-0 text-sm px-2 py-0.5 bg-gray-700/70">
@@ -227,6 +220,13 @@ export default async function AnimePage({ params }) {
                     {/* Tanggal rilis di bawah kanan */}
                     <div className="absolute bottom-0 right-0 text-sm px-2 py-0.5 bg-gray-700/70">
                       {ep.duration}
+                    </div>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-dark/70 opacity-0 group-hover:opacity-100 flex items-center justify-center text-sm transition-opacity">
+                      <div className="group-hover:scale-110 transition-all duration-200">
+                        <RiPlayLargeLine className="h-10 w-10 md:h-16 md:w-16" />
+                      </div>
                     </div>
                   </div>
                 </article>
