@@ -1,4 +1,3 @@
-import TestShimer from "@/components/TesShimer";
 import HomePage from "./page/[page]/page";
 
 const title = `NimeNinja - Nonton Anime Sub Indo Gratis & Terlengkap Kualitas HD`;

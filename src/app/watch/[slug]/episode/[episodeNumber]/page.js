@@ -1,7 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { fetchWithRevalidate } from "@/lib/fetcher";
-import HlsPlayer from "@/components/HlsPlayer";
 import { RiPlayLargeLine } from "react-icons/ri";
 import Link from "next/link";
 import formatDate from "@/utils/formatDate";
@@ -223,8 +222,6 @@ const WatchEpisode = async ({ params }) => {
         className="mt-20 md:mt-24 mb-6 md:mb-10"
       >
         <div className="w-full max-w-7xl mx-auto aspect-video rounded-sm overflow-hidden mb-6">
-          {/* <HlsPlayer src={urlVideo} thumbnail={episode.video.thumbnailObject} /> */}
-
           <PlayerEmbed
             src={`https://player-hls-three.vercel.app/player/${episode.video.prefix}`}
           />

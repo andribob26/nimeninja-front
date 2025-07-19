@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
       target: development
       args:
-        API_BASE_URL: https://apinimeninja.work.gd
+        API_BASE_URL: https://api.nimeninja.win
         NEXT_PUBLIC_SITE_URL: http://dev.local:4000
         REDIS_REST_URL: https://emerging-cougar-56286.upstash.io
         REDIS_REST_TOKEN: AdveAAIjcDEzNzgzNDFmMDJlOGE0NTY1OWZiOTgwYTFmOWI1NzM3ZXAxMA
