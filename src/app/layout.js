@@ -3,9 +3,9 @@ import "./globals.css";
 import Link from "next/link";
 import logo from "../../public/assets/images/naruto.png";
 import { useEffect, useRef, useState } from "react";
-import TopProgressBar from "@/components/TopProgressBar";
 import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
+import TopProgressBar from "@/components/TopProgressBar";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -414,7 +414,9 @@ const RootLayout = ({ children }) => {
           </div>
         </div>
 
-        <main className="mt-16">{children}</main>
+        <main className="mt-16">
+          <SocketProvider>{children}</SocketProvider>
+        </main>
 
         <footer className="p-6 md:p-10">
           <div className="text-sm text-white/60">

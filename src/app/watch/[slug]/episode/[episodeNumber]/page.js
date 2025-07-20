@@ -7,6 +7,7 @@ import formatDate from "@/utils/formatDate";
 import WatchEpisodeClient from "./WatchEpisodeClient";
 import ShimmerImage from "@/components/ShimmerImage";
 import PlayerEmbed from "./PlayerEmbed";
+import DownloadVideo from "./DownloadVideo";
 
 export async function generateMetadata({ params }) {
   const { slug, episodeNumber } = params;
@@ -226,6 +227,17 @@ const WatchEpisode = async ({ params }) => {
             src={`https://player-hls-three.vercel.app/player/${episode.video.prefix}`}
           />
         </div>
+
+        <a
+          href="https://link-to.net/1373195/download/videos/anime/one-piece/21/1751872868639-l1Sdhl-768fb40f-4f0e-4726-a594-917aefc78a68"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+        >
+          Download via Linkvertise
+        </a>
+
+        <DownloadVideo video={episode.video} />
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
           <h4 className="text-left text-lg md:text-2xl font-bold drop-shadow-lg leading-snug">
