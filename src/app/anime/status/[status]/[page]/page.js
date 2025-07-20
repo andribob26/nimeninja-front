@@ -1,5 +1,5 @@
-import ShimmerImage from "@/components/ShimmerImage";
-import { fetchWithRevalidate } from "@/lib/fetcher";
+import ShimmerImage from "../../../../../components/ShimmerImage";
+import { fetchWithRevalidate } from "../../../../../lib/fetcher";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";

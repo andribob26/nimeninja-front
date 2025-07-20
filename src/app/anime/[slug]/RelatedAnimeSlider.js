@@ -5,7 +5,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import cover from "../../../../public/assets/images/naruto_cover.jpg";
 import Link from "next/link";
-import ShimmerImage from "@/components/ShimmerImage";
+import ShimmerImage from "../../../components/ShimmerImage";
 
 const RelatedAnimeSlider = ({ data }) => {
   const [isDragging, setIsDragging] = useState(false);

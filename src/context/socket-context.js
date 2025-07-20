@@ -11,7 +11,7 @@ import { io, Socket } from "socket.io-client";
 
 const SocketContext = createContext({ socket: null, ready: false });
 
-export const SocketProvider = ({ children }) => {
+const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // ✅ simpan ke state
   const [ready, setReady] = useState(false);
 
@@ -49,5 +49,7 @@ export const SocketProvider = ({ children }) => {
     </SocketContext.Provider>
   );
 };
+
+export default SocketProvider
 
 export const useSocket = () => useContext(SocketContext);

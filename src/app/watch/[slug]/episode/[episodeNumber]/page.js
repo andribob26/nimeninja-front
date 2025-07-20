@@ -1,11 +1,11 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { fetchWithRevalidate } from "@/lib/fetcher";
+import { fetchWithRevalidate } from "../../../../../lib/fetcher";
 import { RiPlayLargeLine } from "react-icons/ri";
 import Link from "next/link";
-import formatDate from "@/utils/formatDate";
+// import formatDate from "@/utils/formatDate";
 import WatchEpisodeClient from "./WatchEpisodeClient";
-import ShimmerImage from "@/components/ShimmerImage";
+import ShimmerImage from "../../../../../components/ShimmerImage";
 import PlayerEmbed from "./PlayerEmbed";
 import DownloadVideo from "./DownloadVideo";
 

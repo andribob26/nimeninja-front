@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import devtools from "@/utils/devtools";
+import devtools from "../utils/devtools";
 
 export default function useAntiInspect() {
   const router = useRouter();

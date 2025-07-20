@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Thumnail from "../../../../public/assets/images/thumbnail.jpg";
 import { useRouter, useSearchParams } from "next/navigation";
-import ShimmerImage from "@/components/ShimmerImage";
+import ShimmerImage from "../../../components/ShimmerImage";
 
 const EpisodeAnimeList = ({ slug }) => {
   const router = useRouter();

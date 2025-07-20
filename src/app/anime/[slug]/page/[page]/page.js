@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { fetchWithRevalidate } from "@/lib/fetcher";
+import { fetchWithRevalidate } from "../../../../../lib/fetcher";
 import Link from "next/link";
 import RelatedAnimeSlider from "../../RelatedAnimeSlider";
 import {
@@ -10,7 +10,7 @@ import {
   RiPlayLargeLine,
 } from "react-icons/ri";
 import AnimeDescription from "./AnimeDescription";
-import ShimmerImage from "@/components/ShimmerImage";
+import ShimmerImage from "../../../../../components/ShimmerImage";
 import Image from "next/image";
 
 export const dynamicParams = true;

@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchWithRevalidate } from "@/lib/fetcher";
+import { fetchWithRevalidate } from "../../../lib/fetcher";
 import Link from "next/link";
 import {
   RiArrowLeftDoubleLine,
@@ -10,7 +10,7 @@ import {
   RiPlayLargeLine,
 } from "react-icons/ri";
 import { notFound } from "next/navigation";
-import ShimmerImage from "@/components/ShimmerImage";
+import ShimmerImage from "../../../components/ShimmerImage";
 
 export const dynamicParams = true;
 

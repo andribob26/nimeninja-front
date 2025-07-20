@@ -1,5 +1,5 @@
 // hooks/useHlsToken.js
-import { fetchHlsToken } from "@/lib/fetchHlsToken";
+import { fetchHlsToken } from "../lib/fetchHlsToken";
 import { useEffect, useState } from "react";
 
 export function useHlsToken(isReady) {

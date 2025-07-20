@@ -5,7 +5,9 @@ import logo from "../../public/assets/images/naruto.png";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
-import TopProgressBar from "@/components/TopProgressBar";
+import TopProgressBar from "../components/TopProgressBar";
+import SocketProvider from "../context/socket-context"
+
 
 const navItems = [
   { label: "Home", href: "/" },

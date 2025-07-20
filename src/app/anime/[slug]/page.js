@@ -1,4 +1,4 @@
-import { fetchWithRevalidate } from "@/lib/fetcher";
+import { fetchWithRevalidate } from "../../../lib/fetcher";
 import AnimePage from "./page/[page]/page";
 import { notFound } from "next/navigation";
 

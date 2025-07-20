@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSocket } from "@/context/socket-context";
+import { useSocket } from "../../../../../context/socket-context";
 
 const DownloadVideo = ({ video }) => {
   const [status, setStatus] = useState("idle");
