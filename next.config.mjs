@@ -13,6 +13,28 @@ const nextConfig = {
       },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/sitemap.xml",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+      {
+        source: "/sitemap-:slug.xml", // untuk sitemap-0.xml, sitemap-1.xml, dst
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
