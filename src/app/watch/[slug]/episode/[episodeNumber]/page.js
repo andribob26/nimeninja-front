@@ -8,6 +8,7 @@ import WatchEpisodeClient from "./WatchEpisodeClient";
 import ShimmerImage from "../../../../../components/ShimmerImage";
 import PlayerEmbed from "./PlayerEmbed";
 import DownloadVideo from "./DownloadVideo";
+import DownloadPage from "./DownloadPage";
 
 export async function generateMetadata({ params }) {
   const { slug, episodeNumber } = params;
@@ -228,7 +229,7 @@ const WatchEpisode = async ({ params }) => {
           />
         </div>
 
-        <a
+        {/* <a
           href="https://link-to.net/1373195/download/videos/anime/one-piece/21/1751872868639-l1Sdhl-768fb40f-4f0e-4726-a594-917aefc78a68"
           target="_blank"
           rel="noopener noreferrer"
@@ -237,7 +238,9 @@ const WatchEpisode = async ({ params }) => {
           Download via Linkvertise
         </a>
 
-        <DownloadVideo video={episode.video} />
+        <DownloadVideo video={episode.video} /> */}
+
+        <DownloadPage slug={slug} episode={episodeNumber} prefix={episode.video.prefix}/>
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
           <h4 className="text-left text-lg md:text-2xl font-bold drop-shadow-lg leading-snug">
