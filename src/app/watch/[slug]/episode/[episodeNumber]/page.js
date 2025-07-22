@@ -7,7 +7,6 @@ import Link from "next/link";
 import WatchEpisodeClient from "./WatchEpisodeClient";
 import ShimmerImage from "../../../../../components/ShimmerImage";
 import PlayerEmbed from "./PlayerEmbed";
-import DownloadVideo from "./DownloadVideo";
 import DownloadPage from "./DownloadPage";
 
 export async function generateMetadata({ params }) {

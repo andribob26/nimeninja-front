@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
 import TopProgressBar from "../components/TopProgressBar";
-import SocketProvider from "../context/socket-context"
-
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -416,9 +414,7 @@ const RootLayout = ({ children }) => {
           </div>
         </div>
 
-        <main className="mt-16">
-          <SocketProvider>{children}</SocketProvider>
-        </main>
+        <main className="mt-16">{children}</main>
 
         <footer className="p-6 md:p-10">
           <div className="text-sm text-white/60">
