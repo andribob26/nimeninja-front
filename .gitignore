@@ -29,6 +29,9 @@ yarn-error.log*
 .env
 .env*.local
 
+# sitempa
+/public/sitemap-0.xml
+
 # vercel
 .vercel
 
