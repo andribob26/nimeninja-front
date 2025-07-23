@@ -233,7 +233,7 @@ export default async function AnimePage({ params }) {
               </Link>
             ))
           ) : (
-            <span>Belum ada episode</span>
+            <p className="text-white/60">Tidak ada hasil ditemukan.</p>
           )}
         </div>
 

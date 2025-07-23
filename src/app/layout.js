@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
 import TopProgressBar from "../components/TopProgressBar";
-import InputSearchDesktop from "../components/InputSearchDesktop";
+import InputSearch from "../components/InputSearch";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -24,16 +24,14 @@ const navItems = [
 
 const RootLayout = ({ children }) => {
   const pathname = usePathname();
-  const searchRef = useRef(null);
   const indicatorRef = useRef(null);
   const mobileIndicatorRef = useRef(null);
   const itemsRef = useRef([]);
   const mobileItemsRef = useRef([]);
-  const searchButtonRef = useRef(null);
+
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleIndicator = (el, indicatorRef, itemsRef) => {
     if (!el || !indicatorRef.current) return;
@@ -124,26 +122,7 @@ const RootLayout = ({ children }) => {
     } else if (mobileIndicatorRef.current) {
       mobileIndicatorRef.current.style.display = "none";
     }
-
-    setIsSearchOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        searchRef.current &&
-        !searchRef.current.contains(event.target) &&
-        !searchButtonRef.current?.contains(event.target)
-      ) {
-        setIsSearchOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     if (!isMenuOpen) {
@@ -300,49 +279,7 @@ const RootLayout = ({ children }) => {
                   <RiMenuFill size={28} />
                 </button>
               </div>
-              <div className="relative hidden md:block w-80">
-                <InputSearchDesktop />
-              </div>
-              <div className="md:hidden">
-                <button
-                  ref={searchButtonRef}
-                  onClick={() => {
-                    setIsSearchOpen((prev) => !prev);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <RiSearchLine size={28} />
-                </button>
-              </div>
-              <div
-                ref={searchRef}
-                className={`md:hidden fixed top-16 left-0 right-0 z-[99] px-4 py-3 border-b border-white/[0.08] bg-dark transform transition-all duration-300 ease-in-out ${
-                  isSearchOpen
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-4 pointer-events-none"
-                }`}
-              >
-                <input
-                  type="text"
-                  placeholder="Cari..."
-                  autoFocus
-                  className="w-full px-3 py-2 text-sm rounded-sm border border-white/[0.08] shadow-[inset_2px_4px_16px_0px_#f8f8f80f] backdrop-blur-[20px] bg-[#ffffff14] outline-0 focus:outline-none placeholder-white/60"
-                />
-
-                <div className="mt-2 w-full">
-                  <ul className="bg-dark border border-white/[0.1] rounded shadow-lg max-h-64 overflow-y-auto">
-                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
-                      Naruto
-                    </li>
-                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
-                      One Piece
-                    </li>
-                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
-                      Jujutsu Kaisen
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <InputSearch />
             </div>
           </div>
         </header>

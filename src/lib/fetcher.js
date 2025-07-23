@@ -3,7 +3,7 @@ const BASE_URL = process.env.API_BASE_URL;
 export async function fetchWithRevalidate(
   path,
   params = {},
-  revalidateInSeconds = 1800 // ⏱️ default cache 30 menit
+  revalidateInSeconds = false // ⏱️ selamanya
 ) {
   const searchParams = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {

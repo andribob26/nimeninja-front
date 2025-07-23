@@ -165,7 +165,7 @@ const HomePage = async ({ params }) => {
               </Link>
             ))
           ) : (
-            <span>Belum ada episode</span>
+            <p className="text-white/60">Tidak ada hasil ditemukan.</p>
           )}
         </div>
         {paginationLastEpisode.lastPage > 1 && (
