@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
 import TopProgressBar from "../components/TopProgressBar";
+import InputSearchDesktop from "../components/InputSearchDesktop";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -294,21 +295,14 @@ const RootLayout = ({ children }) => {
                   className="absolute left-0 -bottom-4 h-[1.5px] z-20 bg-orange-500 transition-all duration-400 ease-in-out"
                 />
               </nav>
-
               <div className="md:hidden">
                 <button onClick={() => setIsMenuOpen(true)}>
                   <RiMenuFill size={28} />
                 </button>
               </div>
-
-              <div>
-                <input
-                  className="hidden md:block w-64 px-3 py-2 text-sm rounded-sm border border-white/[0.08] shadow-[inset_2px_4px_16px_0px_#f8f8f80f] backdrop-blur-[20px] bg-[#ffffff14] outline-0 focus:outline-none"
-                  placeholder="Cari..."
-                  aria-label="Search anime"
-                />
+              <div className="relative hidden md:block w-80">
+                <InputSearchDesktop />
               </div>
-
               <div className="md:hidden">
                 <button
                   ref={searchButtonRef}
@@ -320,7 +314,6 @@ const RootLayout = ({ children }) => {
                   <RiSearchLine size={28} />
                 </button>
               </div>
-
               <div
                 ref={searchRef}
                 className={`md:hidden fixed top-16 left-0 right-0 z-[99] px-4 py-3 border-b border-white/[0.08] bg-dark transform transition-all duration-300 ease-in-out ${
@@ -335,6 +328,20 @@ const RootLayout = ({ children }) => {
                   autoFocus
                   className="w-full px-3 py-2 text-sm rounded-sm border border-white/[0.08] shadow-[inset_2px_4px_16px_0px_#f8f8f80f] backdrop-blur-[20px] bg-[#ffffff14] outline-0 focus:outline-none placeholder-white/60"
                 />
+
+                <div className="mt-2 w-full">
+                  <ul className="bg-dark border border-white/[0.1] rounded shadow-lg max-h-64 overflow-y-auto">
+                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
+                      Naruto
+                    </li>
+                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
+                      One Piece
+                    </li>
+                    <li className="px-4 py-2 text-sm text-white/80 hover:bg-white/10">
+                      Jujutsu Kaisen
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

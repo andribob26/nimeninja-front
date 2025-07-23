@@ -29,15 +29,13 @@ const DownloadPage = ({ slug, episode, prefix }) => {
   };
 
   return (
-    <div className="p-10">
-      <button
-        onClick={handleShorten}
-        disabled={loading}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        {loading ? "Memproses..." : "Dapatkan Link Download"}
-      </button>
-    </div>
+    <button
+      onClick={handleShorten}
+      disabled={loading}
+      className="px-4 py-2 bg-gray-700 hover:bg-gray-600 transition-all duration-200 w-44"
+    >
+      {loading ? "Memproses..." : "Link Download"}
+    </button>
   );
 };
 

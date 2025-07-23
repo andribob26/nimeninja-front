@@ -239,30 +239,49 @@ const WatchEpisode = async ({ params }) => {
 
         <DownloadVideo video={episode.video} /> */}
 
-        <DownloadPage slug={slug} episode={episodeNumber} prefix={episode.video.prefix}/>
+        {/* <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10">
+       
+        </div> */}
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between px-6 md:px-10 gap-6 md:gap-6">
-          <h4 className="text-left text-lg md:text-2xl font-bold drop-shadow-lg leading-snug">
-            {`${episode.media.title} Episode ${episode.episodeNumber}`}
-          </h4>
+        <div className="mt-4 flex flex-col gap-4 px-6 md:px-10">
+          {/* Bagian Judul dan Tombol Download */}
+          <div className="flex flex-col gap-4">
+            {/* Judul & Tombol Download */}
+            <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:items-center">
+              <div className="flex-1 w-full">
+                <h4 className="text-left text-lg sm:text-xl md:text-2xl font-bold drop-shadow-lg leading-snug">
+                  {`${episode.media.title} Episode ${episode.episodeNumber}`}
+                </h4>
+              </div>
 
-          <div className="flex justify-center flex-wrap gap-4">
-            {episode.episodeNumber > 1 && (
-              <Link
-                href={`/watch/${slug}/episode/${episode.episodeNumber - 1}`}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
-              >
-                Sebelumnya
-              </Link>
-            )}
-            {episode.episodeNumber < total && (
-              <Link
-                href={`/watch/${slug}/episode/${episode.episodeNumber + 1}`}
-                className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
-              >
-                Selanjutnya
-              </Link>
-            )}
+              <div className="flex justify-center md:justify-end">
+                <DownloadPage
+                  slug={slug}
+                  episode={episodeNumber}
+                  prefix={episode.video.prefix}
+                />
+              </div>
+            </div>
+
+            {/* Tombol Navigasi Episode */}
+            <div className="flex justify-center md:justify-end flex-wrap gap-4">
+              {episode.episodeNumber > 1 && (
+                <Link
+                  href={`/watch/${slug}/episode/${episode.episodeNumber - 1}`}
+                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
+                >
+                  Sebelumnya
+                </Link>
+              )}
+              {episode.episodeNumber < total && (
+                <Link
+                  href={`/watch/${slug}/episode/${episode.episodeNumber + 1}`}
+                  className="px-4 py-2 bg-gray-700 hover:bg-gray-600"
+                >
+                  Selanjutnya
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </section>
