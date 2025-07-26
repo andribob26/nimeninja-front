@@ -20,7 +20,7 @@ export default function PlayerEmbed({ src }) {
         height="100%"
         className="absolute inset-0 w-full h-full"
         style={{ border: "none" }}
-        sandbox="allow-scripts allow-presentation allow-top-navigation-by-user-activation"
+        sandbox="allow-scripts allow-same-origin allow-presentation allow-top-navigation-by-user-activation"
         allowFullScreen
         onLoad={() => setLoading(false)}
       />
