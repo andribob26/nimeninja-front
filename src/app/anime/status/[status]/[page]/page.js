@@ -78,7 +78,7 @@ const AnimeStatusPage = async ({ params }) => {
             className="text-lg sm:text-xl md:text-2xl font-semibold inline-block"
           >
             {status === "ongoing" ? "Sedang Tayang" : "Anime Selesai"}
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
         </header>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">

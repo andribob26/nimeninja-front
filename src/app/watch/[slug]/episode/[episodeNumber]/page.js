@@ -295,11 +295,11 @@ const WatchEpisode = async ({ params }) => {
             className="text-lg sm:text-xl md:text-2xl font-semibold inline-block"
           >
             Episode Lainnya
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
           <Link
             href={`/anime/${slug}`}
-            className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-sm transition-all duration-200"
+            className="px-2 py-1 bg-primary hover:bg-orange-600 text-sm transition-all duration-200"
           >
             Lihat Lainnya
           </Link>

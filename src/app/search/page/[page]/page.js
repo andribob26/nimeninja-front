@@ -52,8 +52,8 @@ const SearchPage = async ({ params, searchParams }) => {
           className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
         >
           Hasil pencarian:{" "}
-          <span className="text-orange-500">{query || "(kosong)"}</span>
-          <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+          <span className="text-primary">{query || "(kosong)"}</span>
+          <span className="block mt-2 w-full h-[3px] bg-primary"></span>
         </h2>
       </header>
 

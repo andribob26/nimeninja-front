@@ -47,7 +47,7 @@ body {
 }
 
 #nprogress .bar {
-  background: #f97316 !important; /* Tailwind orange-500 */
+  background: #f97316 !important; /* Tailwind primary */
   height: 3px;
 }
 

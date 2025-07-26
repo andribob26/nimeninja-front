@@ -189,7 +189,7 @@ export default async function AnimePage({ params }) {
             className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
           >
             Episode
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
         </header>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
@@ -328,7 +328,7 @@ export default async function AnimePage({ params }) {
             className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
           >
             Anime Terkait
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
         </header>
         <RelatedAnimeSlider data={animeRelate} />

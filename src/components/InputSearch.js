@@ -120,7 +120,7 @@ const InputSearch = () => {
               <div className="border-t border-white/[0.08]">
                 <Link
                   href={`/search?q=${encodeURIComponent(query)}`}
-                  className="block text-center text-xs text-orange-500 italic py-2 hover:underline"
+                  className="block text-center text-xs text-primary italic py-2 hover:underline"
                 >
                   Lihat semua hasil
                 </Link>
@@ -205,7 +205,7 @@ const InputSearch = () => {
             <div className="border-t border-white/[0.08]">
               <Link
                 href={`/search?q=${encodeURIComponent(query)}`}
-                className="block text-center text-xs text-orange-500 italic py-2 hover:underline"
+                className="block text-center text-xs text-primary italic py-2 hover:underline"
               >
                 Lihat semua hasil
               </Link>

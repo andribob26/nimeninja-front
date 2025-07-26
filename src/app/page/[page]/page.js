@@ -119,7 +119,7 @@ const HomePage = async ({ params }) => {
             className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
           >
             Episode Terbaru
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
         </header>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
@@ -261,11 +261,11 @@ const HomePage = async ({ params }) => {
             className="text-lg sm:text-xl md:text-2xl font-semibold inline-block"
           >
             Sedang Tayang
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
           <Link
             href={`/anime/status/ongoing`}
-            className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-sm transition-all duration-200"
+            className="px-2 py-1 bg-primary hover:bg-orange-600 text-sm transition-all duration-200"
           >
             Lihat Lainnya
           </Link>
@@ -312,11 +312,11 @@ const HomePage = async ({ params }) => {
             className="text-lg sm:text-xl md:text-2xl font-semibold inline-block"
           >
             Anime Selesai
-            <span className="block mt-2 w-full h-[3px] bg-orange-500"></span>
+            <span className="block mt-2 w-full h-[3px] bg-primary"></span>
           </h2>
           <Link
             href={`/anime/status/completed`}
-            className="px-2 py-1 bg-orange-500 hover:bg-orange-600 text-sm transition-all duration-200"
+            className="px-2 py-1 bg-primary hover:bg-orange-600 text-sm transition-all duration-200"
           >
             Lihat Lainnya
           </Link>

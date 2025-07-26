@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { RiCloseLine, RiMenuFill, RiSearchLine } from "react-icons/ri";
 import TopProgressBar from "../components/TopProgressBar";
 import InputSearch from "../components/InputSearch";
+import Image from "next/image";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -237,48 +238,61 @@ const RootLayout = ({ children }) => {
         >
           <div className="max-w-7xl mx-auto flex items-center">
             <div className="flex h-16 items-center justify-between flex-1">
-              <nav className="hidden md:inline-flex relative max-w-full select-none text-neutral-300">
-                {navItems.map(({ label, href, children }, i) => (
-                  <div
-                    key={label}
-                    ref={(el) => (itemsRef.current[i] = el)}
-                    className="relative px-4 font-medium transition-colors duration-300 group"
-                  >
-                    {href ? (
-                      <Link href={href}>{label}</Link>
-                    ) : (
-                      <span>{label}</span>
-                    )}
-
-                    {children && (
-                      <div className="absolute left-0 top-full mt-0 w-40 bg-transparent invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition duration-200 z-50">
-                        <div className="mt-5 bg-dark border border-white/[0.1] shadow-lg">
-                          {children.map((child) => (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              className="block px-4 py-2 text-sm text-white/60 hover:bg-white/10"
-                            >
-                              {child.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-
-                <span
-                  ref={indicatorRef}
-                  style={{ display: "none" }}
-                  className="absolute left-0 -bottom-4 h-[1.5px] z-20 bg-orange-500 transition-all duration-400 ease-in-out"
-                />
-              </nav>
               <div className="md:hidden">
                 <button onClick={() => setIsMenuOpen(true)}>
                   <RiMenuFill size={28} />
                 </button>
               </div>
+              <div className="flex items-center md:gap-6">
+                <div>
+                  <Link href="/">
+                    <Image
+                      src="/assets/images/nimeninja.png"
+                      alt="Logo"
+                      width={160} 
+                      height={48}
+                    />
+                  </Link>
+                </div>
+                <nav className="hidden md:inline-flex relative max-w-full select-none text-neutral-300">
+                  {navItems.map(({ label, href, children }, i) => (
+                    <div
+                      key={label}
+                      ref={(el) => (itemsRef.current[i] = el)}
+                      className="relative px-4 font-medium transition-colors duration-300 group"
+                    >
+                      {href ? (
+                        <Link href={href}>{label}</Link>
+                      ) : (
+                        <span>{label}</span>
+                      )}
+
+                      {children && (
+                        <div className="absolute left-0 top-full mt-0 w-40 bg-transparent invisible opacity-0 translate-y-2 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 transition duration-200 z-50">
+                          <div className="mt-5 bg-dark border border-white/[0.1] shadow-lg">
+                            {children.map((child) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                className="block px-4 py-2 text-sm text-white/60 hover:bg-white/10"
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  <span
+                    ref={indicatorRef}
+                    style={{ display: "none" }}
+                    className="absolute left-0 -bottom-4 h-[1.5px] z-20 bg-primary transition-all duration-400 ease-in-out"
+                  />
+                </nav>
+              </div>
+
               <InputSearch />
             </div>
           </div>
@@ -350,7 +364,7 @@ const RootLayout = ({ children }) => {
                     )}
                   </div>
                   {isItemActive({ href, children, pathname }) && (
-                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-orange-500" />
+                    <span className="absolute left-0 bottom-0 h-[2px] w-full bg-primary" />
                   )}
                 </div>
               ))}

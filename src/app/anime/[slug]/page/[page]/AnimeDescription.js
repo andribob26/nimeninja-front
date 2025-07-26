@@ -31,7 +31,7 @@ const AnimeDescription = ({ anime }) => {
 
         {isOverflowing && (
           <button
-            className="text-orange-500 mt-2 text-sm focus:outline-none"
+            className="text-primary mt-2 text-sm focus:outline-none"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? "Sembunyikan" : "Lihat selengkapnya"}
