@@ -61,13 +61,12 @@ const SearchPage = async ({ params, searchParams }) => {
         <p className="text-white/60">Tidak ada hasil ditemukan.</p>
       ) : (
         <ul className="divide-y divide-white/[0.05]">
-          {results.map((anime) => (
+          {results.map((item) => (
             <li
-              key={anime.id}
+              key={item.id}
               className="px-3 py-4 text-sm text-white/80 hover:bg-white/10 cursor-pointer transition-all duration-200"
             >
               <Link
-                key={item.id}
                 href={`/anime/${item.slug}`}
                 passHref
                 className="flex items-start gap-4"
@@ -75,8 +74,8 @@ const SearchPage = async ({ params, searchParams }) => {
                 {/* Poster */}
                 <div className="relative w-20 h-28 md:w-24 md:h-36 flex-shrink-0 rounded overflow-hidden">
                   <ShimmerImage
-                    src={`/files/${anime.coverImage.folder}/${anime.coverImage.fileName}?h=400`}
-                    alt={anime.coverImage.fileName}
+                    src={`/files/${item.coverImage.folder}/${item.coverImage.fileName}?h=400`}
+                    alt={item.coverImage.fileName}
                     fill
                     sizes="96px"
                     className="object-cover"
@@ -87,26 +86,26 @@ const SearchPage = async ({ params, searchParams }) => {
                 <div className="flex flex-col gap-1 flex-1">
                   {/* Title */}
                   <h3 className="text-base md:text-lg font-semibold line-clamp-2">
-                    {anime.title}
+                    {item.title}
                   </h3>
                   <div className="flex items-center gap-4 text-sm md:text-sm">
-                    {anime.score && (
+                    {item.score && (
                       <div className="flex gap-1 text-yellow-400 items-center">
                         <dt className="font-semibold">Score:</dt>
-                        <dd>{parseFloat(anime.score).toFixed(1)}</dd>
+                        <dd>{parseFloat(item.score).toFixed(1)}</dd>
                       </div>
                     )}
-                    {anime.year && (
+                    {item.year && (
                       <div className="flex gap-1 items-center text-white/60">
                         <dt className="font-semibold">Year:</dt>
-                        <dd>{anime.year}</dd>
+                        <dd>{item.year}</dd>
                       </div>
                     )}
                   </div>
                   {/* Deskripsi jika ada */}
-                  {anime.description && (
+                  {item.description && (
                     <p className="text-white/60 text-sm md:text-sm line-clamp-3 md:line-clamp-4">
-                      {anime.description}
+                      {item.description}
                     </p>
                   )}
                 </div>
