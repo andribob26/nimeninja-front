@@ -66,7 +66,12 @@ const SearchPage = async ({ params, searchParams }) => {
               key={anime.id}
               className="px-3 py-4 text-sm text-white/80 hover:bg-white/10 cursor-pointer transition-all duration-200"
             >
-              <div className="flex items-start gap-4">
+              <Link
+                key={item.id}
+                href={`/anime/${item.slug}`}
+                passHref
+                className="flex items-start gap-4"
+              >
                 {/* Poster */}
                 <div className="relative w-20 h-28 md:w-24 md:h-36 flex-shrink-0 rounded overflow-hidden">
                   <ShimmerImage
@@ -105,7 +110,7 @@ const SearchPage = async ({ params, searchParams }) => {
                     </p>
                   )}
                 </div>
-              </div>
+              </Link>
             </li>
           ))}
         </ul>
