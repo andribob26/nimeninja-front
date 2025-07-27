@@ -52,11 +52,17 @@ const AnimeStatusPage = async ({ params }) => {
   };
 
   try {
-    const resAnimeStatus = await fetchWithRevalidate("/media", {
-      page: pageNumber,
-      statusName: statusName,
-      ...paramsStatusAnime,
-    });
+    const resAnimeStatus = await fetchWithRevalidate(
+      "/media",
+      {
+        page: pageNumber,
+        statusName: statusName,
+        ...paramsStatusAnime,
+      },
+      {
+        tags: [`media`],
+      }
+    );
     animes = resAnimeStatus.data;
     pagination = resAnimeStatus.pagination;
   } catch (err) {

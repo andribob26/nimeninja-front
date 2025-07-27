@@ -90,12 +90,18 @@ export default async function AnimePage({ params }) {
     const title = anime.title;
     const studio = anime.studio;
     const genres = anime.genre.map((g) => g.name);
-    const resAnimeRelate = await fetchWithRevalidate(`/media`, {
-      ...paramsAnimeRelate,
-      search: title,
-      studio: studio,
-      genres: genres,
-    });
+    const resAnimeRelate = await fetchWithRevalidate(
+      `/media`,
+      {
+        ...paramsAnimeRelate,
+        search: title,
+        studio: studio,
+        genres: genres,
+      },
+      {
+        tags: [`media`],
+      }
+    );
     const filterAnimeRelate = resAnimeRelate.data.filter(
       (item) => item.slug !== slug
     );

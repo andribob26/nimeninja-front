@@ -96,7 +96,10 @@ const HomePage = async ({ params }) => {
   try {
     const resAnimeOngoing = await fetchWithRevalidate(
       "/media",
-      paramsOngoingAnime
+      paramsOngoingAnime,
+      {
+        tags: [`media`],
+      }
     );
 
     animeOngoing = resAnimeOngoing.data;
@@ -108,7 +111,10 @@ const HomePage = async ({ params }) => {
   try {
     const resAnimeCompleted = await fetchWithRevalidate(
       "/media",
-      paramsCompletedAnime
+      paramsCompletedAnime,
+      {
+        tags: [`media`],
+      }
     );
     animeCompleted = resAnimeCompleted.data;
   } catch (error) {

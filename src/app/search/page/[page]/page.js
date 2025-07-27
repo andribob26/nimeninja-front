@@ -28,12 +28,18 @@ const SearchPage = async ({ params, searchParams }) => {
   };
 
   try {
-    const res = await fetchWithRevalidate("/media", {
-      search: query,
-      page,
-      limit: 20,
-      orderDirection: "DESC",
-    });
+    const res = await fetchWithRevalidate(
+      "/media",
+      {
+        search: query,
+        page,
+        limit: 20,
+        orderDirection: "DESC",
+      },
+      {
+        tags: [`media`],
+      }
+    );
 
     results = res.data;
     pagination = res.pagination;
