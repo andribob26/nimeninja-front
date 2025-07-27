@@ -95,7 +95,11 @@ const InputSearch = () => {
                     key={item.id}
                     className="px-3 py-2 text-sm text-white/80 hover:bg-white/10 cursor-pointer"
                   >
-                    <div className="flex items-center gap-3">
+                    <Link
+                      href={`/anime/${item.slug}`}
+                      passHref
+                      className="flex items-center gap-3"
+                    >
                       {/* Gambar */}
                       <div className="relative w-12 h-16 flex-shrink-0 rounded overflow-hidden">
                         <ShimmerImage
@@ -111,7 +115,7 @@ const InputSearch = () => {
                       <span className="line-clamp-2">
                         {item.title || item.name}
                       </span>
-                    </div>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -180,7 +184,11 @@ const InputSearch = () => {
                   key={item.id}
                   className="px-3 py-2 text-sm text-white/80 hover:bg-white/10 cursor-pointer"
                 >
-                  <div className="flex items-center gap-3">
+                  <Link
+                    href={`/anime/${item.slug}`}
+                    passHref
+                    className="flex items-center gap-3"
+                  >
                     {/* Gambar */}
                     <div className="relative w-12 h-16 flex-shrink-0 rounded overflow-hidden">
                       <ShimmerImage
@@ -196,7 +204,7 @@ const InputSearch = () => {
                     <span className="line-clamp-2">
                       {item.title || item.name}
                     </span>
-                  </div>
+                  </Link>
                 </li>
               ))}
             </ul>

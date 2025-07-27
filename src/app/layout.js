@@ -249,8 +249,9 @@ const RootLayout = ({ children }) => {
                     <Image
                       src="/assets/images/nimeninja.png"
                       alt="Logo"
-                      width={160} 
+                      width={160}
                       height={48}
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </Link>
                 </div>
