@@ -15,10 +15,16 @@ export async function generateMetadata({ params }) {
   let episode;
 
   try {
-    const res = await fetchWithRevalidate("/episodes", {
-      mediaSlug: slug,
-      episodeNumber,
-    });
+    const res = await fetchWithRevalidate(
+      "/episodes",
+      {
+        mediaSlug: slug,
+        episodeNumber,
+      },
+      {
+        tags: [`episode-${slug}`],
+      }
+    );
 
     episode = res.data?.[0];
   } catch (error) {
@@ -165,14 +171,26 @@ const WatchEpisode = async ({ params }) => {
   let urlVideo;
 
   try {
-    const res = await fetchWithRevalidate("/episodes", {
-      mediaSlug: slug,
-      episodeNumber,
-    });
+    const res = await fetchWithRevalidate(
+      "/episodes",
+      {
+        mediaSlug: slug,
+        episodeNumber,
+      },
+      {
+        tags: [`episode-${slug}`],
+      }
+    );
 
-    const resTotal = await fetchWithRevalidate("/episodes/total", {
-      mediaSlug: slug,
-    });
+    const resTotal = await fetchWithRevalidate(
+      "/episodes/total",
+      {
+        mediaSlug: slug,
+      },
+      {
+        tags: [`episode-${slug}`],
+      }
+    );
     episode = res.data?.[0];
     total = resTotal.data;
 
@@ -185,12 +203,18 @@ const WatchEpisode = async ({ params }) => {
   }
 
   try {
-    const resEpisodes = await fetchWithRevalidate("/episodes", {
-      mediaSlug: slug,
-      episodeNumber,
-      limit: 8,
-      aroundEpisode: true,
-    });
+    const resEpisodes = await fetchWithRevalidate(
+      "/episodes",
+      {
+        mediaSlug: slug,
+        episodeNumber,
+        limit: 8,
+        aroundEpisode: true,
+      },
+      {
+        tags: [`episode-${slug}`],
+      }
+    );
     episodes = resEpisodes.data;
   } catch (error) {
     console.error("Fetch episode error:", error);

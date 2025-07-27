@@ -48,7 +48,7 @@ const SearchPage = async ({ params, searchParams }) => {
     >
       <header>
         <h2
-          id="anime-episode"
+          id="search-results"
           className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
         >
           Hasil pencarian:{" "}

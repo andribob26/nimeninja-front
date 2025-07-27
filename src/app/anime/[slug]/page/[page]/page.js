@@ -62,18 +62,24 @@ export default async function AnimePage({ params }) {
   let animeRelate = [];
 
   try {
-    const res = await fetchWithRevalidate(`/media/${slug}`, {});
+    const res = await fetchWithRevalidate(`/media/${slug}`);
     anime = res.data;
   } catch {
     console.error("Anime by slug fetch error:", err);
     notFound();
   }
   try {
-    const resEpisodes = await fetchWithRevalidate(`/episodes`, {
-      ...paramsEpisodeAnime,
-      page: pageNumber,
-      mediaId: anime.id,
-    });
+    const resEpisodes = await fetchWithRevalidate(
+      `/episodes`,
+      {
+        ...paramsEpisodeAnime,
+        page: pageNumber,
+        mediaId: anime.id,
+      },
+      {
+        tags: [`episode`],
+      }
+    );
     episodes = resEpisodes.data;
     pagination = resEpisodes.pagination;
   } catch (err) {
@@ -182,10 +188,13 @@ export default async function AnimePage({ params }) {
       </div>
 
       {/* Episode List */}
-      <section className="px-6 md:px-10 mb-6 md:mb-10">
+      <section
+        aria-labelledby={`${anime.slug}-anime-episode`}
+        className="px-6 md:px-10 mb-6 md:mb-10"
+      >
         <header>
           <h2
-            id="anime-episode"
+            id={`${anime.slug}-anime-episode`}
             className="text-lg sm:text-xl md:text-2xl font-semibold mb-6 inline-block"
           >
             Episode
@@ -321,7 +330,10 @@ export default async function AnimePage({ params }) {
       </section>
 
       {/* Related */}
-      <section className="px-6 md:px-10 mb-6 md:mb-10">
+      <section
+        aria-labelledby="anime-related"
+        className="px-6 md:px-10 mb-6 md:mb-10"
+      >
         <header>
           <h2
             id="anime-related"

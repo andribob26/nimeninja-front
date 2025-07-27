@@ -6,7 +6,7 @@ export async function generateMetadata({ params }) {
   const { slug } = params;
   let anime;
   try {
-    const res = await fetchWithRevalidate(`/media/${slug}`, {});
+    const res = await fetchWithRevalidate(`/media/${slug}`);
     anime = res.data;
   } catch (error) {
     return {
@@ -113,7 +113,7 @@ export async function generateMetadata({ params }) {
 export default async function AnimeDefaultPage({ params }) {
   let anime;
   try {
-    const res = await fetchWithRevalidate(`/media/${params.slug}`, {});
+    const res = await fetchWithRevalidate(`/media/${params.slug}`);
     anime = res.data;
   } catch (error) {
     console.error("Anime by slug fetch error:", error);

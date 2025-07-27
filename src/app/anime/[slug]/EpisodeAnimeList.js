@@ -21,11 +21,17 @@ const EpisodeAnimeList = ({ slug }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetchWithRevalidate("/episodes", {
-          page: 1,
-          limit: 20,
-          orderDirection: "DESC",
-        });
+        const res = await fetchWithRevalidate(
+          "/episodes",
+          {
+            page: 1,
+            limit: 20,
+            orderDirection: "DESC",
+          },
+          {
+            tags: [`episode-${slug}`],
+          }
+        );
 
         // Cek jika page > lastPage dari server
         if (page > res.data.pagination?.lastPage) {

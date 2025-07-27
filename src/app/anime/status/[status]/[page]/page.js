@@ -69,7 +69,7 @@ const AnimeStatusPage = async ({ params }) => {
   return (
     <>
       <section
-        aria-labelledby="completed-anime"
+        aria-labelledby={`anime-${status}`}
         className="px-6 md:px-10 mb-6 md:mb-10 mt-20 md:mt-24"
       >
         <header className="flex items-center justify-between mb-6">

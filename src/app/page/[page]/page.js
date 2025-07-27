@@ -76,10 +76,16 @@ const HomePage = async ({ params }) => {
   let animeCompleted = [];
 
   try {
-    const resLastEpisodeAnime = await fetchWithRevalidate("/episodes", {
-      page: page,
-      ...paramsLastEpisodeAnime,
-    });
+    const resLastEpisodeAnime = await fetchWithRevalidate(
+      "/episodes",
+      {
+        page: page,
+        ...paramsLastEpisodeAnime,
+      },
+      {
+        tags: [`episode-${anime.slug}`],
+      }
+    );
     lastEpisodeAnime = resLastEpisodeAnime.data;
     paginationLastEpisode = resLastEpisodeAnime.pagination;
   } catch (error) {
@@ -112,7 +118,10 @@ const HomePage = async ({ params }) => {
 
   return (
     <>
-      <section className="px-6 md:px-10 mb-6 md:mb-10 mt-20 md:mt-24">
+      <section
+        aria-labelledby="last-episode"
+        className="px-6 md:px-10 mb-6 md:mb-10 mt-20 md:mt-24"
+      >
         <header>
           <h2
             id="last-episode"
@@ -252,7 +261,7 @@ const HomePage = async ({ params }) => {
         )}
       </section>
       <section
-        aria-labelledby="currently-airing"
+        aria-labelledby="anime-ongoing"
         className="px-6 md:px-10 mb-6 md:mb-10"
       >
         <header className="flex items-center justify-between mb-6">
@@ -303,7 +312,7 @@ const HomePage = async ({ params }) => {
       </section>
 
       <section
-        aria-labelledby="completed-anime"
+        aria-labelledby="anime-completed"
         className="px-6 md:px-10 mb-6 md:mb-10"
       >
         <header className="flex items-center justify-between mb-6">
