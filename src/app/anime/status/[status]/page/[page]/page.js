@@ -1,8 +1,9 @@
-import ShimmerImage from "../../../../../components/ShimmerImage";
-import { fetchWithRevalidate } from "../../../../../lib/fetcher";
+import ShimmerImage from "../../../../../../components/ShimmerImage";
+import { fetchWithRevalidate } from "../../../../../../lib/fetcher";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
+import { RiArrowLeftDoubleLine, RiArrowLeftSLine, RiArrowRightDoubleLine, RiArrowRightSLine } from "react-icons/ri";
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -111,7 +112,7 @@ export async function generateStaticParams() {
     const pages = Array.from({ length: totalPages }, (_, i) => ({
       page: `${i + 1}`,
     }));
-
+    
     return pages;
   } catch (error) {
     console.error("generateStaticParams error:", error);
@@ -231,7 +232,7 @@ const AnimeStatusPage = async ({ params }) => {
               {/* Tombol ke halaman pertama */}
               {pagination.page > 3 && (
                 <Link
-                  href={`/`}
+                  href={`/anime/status/${status}`}
                   className="px-2 py-1 md:px-3 md:py-2 flex items-center justify-center bg-gray-700 hover:bg-gray-600"
                 >
                   <RiArrowLeftDoubleLine className="w-4 h-4 md:w-5 md:h-5" />
@@ -242,7 +243,7 @@ const AnimeStatusPage = async ({ params }) => {
               {pagination.page > 1 && (
                 <Link
                   href={
-                    pagination.page === 2 ? `/` : `/page/${pagination.page - 1}`
+                    pagination.page === 2 ? `/anime/status/${status}` : `/anime/status/${status}/page/${pagination.page - 1}`
                   }
                   className="px-2 py-1 md:px-3 md:py-2 flex items-center justify-center bg-gray-700 hover:bg-gray-600"
                 >
@@ -260,7 +261,7 @@ const AnimeStatusPage = async ({ params }) => {
                 return page <= pagination.lastPage ? (
                   <Link
                     key={page}
-                    href={page === 1 ? "/" : `/page/${page}`}
+                    href={page === 1 ? `/anime/status/${status}` : `/anime/status/${status}/page/${page}`}
                     className={`px-2 py-1 md:px-4 md:py-2 ${
                       page === pagination.page
                         ? "bg-white text-black font-bold border"
@@ -275,7 +276,7 @@ const AnimeStatusPage = async ({ params }) => {
               {/* Tombol Next */}
               {pagination.page < pagination.lastPage && (
                 <Link
-                  href={`/page/${pagination.page + 1}`}
+                  href={`/anime/status/${status}/page/${pagination.page + 1}`}
                   className="px-2 py-1 md:px-3 md:py-2 flex items-center justify-center bg-gray-700 hover:bg-gray-600"
                 >
                   <RiArrowRightSLine className="w-4 h-4 md:w-5 md:h-5" />
@@ -285,7 +286,7 @@ const AnimeStatusPage = async ({ params }) => {
               {/* Tombol ke halaman terakhir */}
               {pagination.page < pagination.lastPage - 2 && (
                 <Link
-                  href={`/page/${pagination.lastPage}`}
+                  href={`/anime/status/${status}/page/${pagination.lastPage}`}
                   className="px-2 py-1 md:px-3 md:py-2 flex items-center justify-center bg-gray-700 hover:bg-gray-600"
                 >
                   <RiArrowRightDoubleLine className="w-4 h-4 md:w-5 md:h-5" />

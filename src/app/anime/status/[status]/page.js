@@ -1,5 +1,5 @@
 import React from "react";
-import AnimeStatusPage from "./[page]/page";
+import AnimeStatusPage from "./page/[page]/page";
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -95,6 +95,7 @@ export async function generateMetadata({ params }) {
 
 const AnimeStatusDefaultPage = ({ params }) => {
   const status = capitalize(params.status);
+
   return (
     <>
       <script
