@@ -208,7 +208,7 @@ const WatchEpisode = async ({ params }) => {
       {
         mediaSlug: slug,
         episodeNumber,
-        limit: 8,
+        limit: 9,
         aroundEpisode: true,
       },
       {
