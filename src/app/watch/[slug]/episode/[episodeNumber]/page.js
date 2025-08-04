@@ -210,7 +210,6 @@ const WatchEpisode = async ({ params }) => {
         episodeNumber,
         limit: 8,
         aroundEpisode: true,
-        orderDirection: "DESC",
       },
       {
         tags: [`episode-${slug}`],
