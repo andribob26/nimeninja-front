@@ -19,7 +19,7 @@ const navItems = [
       { label: "Anime Selesai", href: "/anime/status/completed" },
     ],
   },
-  { label: "Movie", href: "/movie" },
+  // { label: "Movie", href: "/movie" },
   { label: "Genre", href: "/genre" },
 ];
 
